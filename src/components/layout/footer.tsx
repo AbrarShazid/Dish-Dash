@@ -24,11 +24,11 @@ const Footer = ({ className }: FooterProps) => {
     { title: "About us", url: "/about" },
     { title: "Contact us", url: "/contact" },
     { title: "Press", url: "/press" },
-    { title: "How DishDash works", url: "/how-it-works" },
+
   ];
 
   const servicesLinks = [
-    { title: "Food delivery", url: "/delivery" },
+    { title: "Food delivery", url: "/meals" },
   
   ];
 
@@ -43,7 +43,7 @@ const Footer = ({ className }: FooterProps) => {
     { icon: Twitter, url: "https://twitter.com", label: "Twitter" },
     { icon: Instagram, url: "https://instagram.com", label: "Instagram" },
     { icon: Youtube, url: "https://youtube.com", label: "Youtube" },
-    { icon: Linkedin, url: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Linkedin, url: "https://linkedin.com/in/abrar-shazid", label: "LinkedIn" },
   ];
 
   return (
@@ -59,7 +59,7 @@ const Footer = ({ className }: FooterProps) => {
               </h2>
             </Link>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-md">
-              Order food from the best restaurants and shops with DishDash
+              Order food from the best restaurants with DishDash
              
             </p>
 
@@ -122,7 +122,7 @@ const Footer = ({ className }: FooterProps) => {
 
               {/* Partner Links */}
               <div>
-                <h3 className="font-semibold text-lg mb-4">Partners</h3>
+                <h3 className="font-semibold text-lg mb-4">More</h3>
                 <ul className="space-y-3">
                   {partnerLinks.map((link) => (
                     <li key={link.title}>
@@ -154,7 +154,7 @@ const Footer = ({ className }: FooterProps) => {
         {/* <Separator className="my-8" /> */}
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2" >
           <p className="text-sm text-gray-600 dark:text-gray-400 ">
             © Copyright 2026 DishDash Express Limited. All rights reserved.
           </p>
