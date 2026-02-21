@@ -1,8 +1,18 @@
-// "use server";
+"use server";
 
-// import { blogService } from "@/services/blog.service";
+import { userService } from "@/services/user.service";
 
-// export const getBlogs = async () => {
-//   return await blogService.getBlogPosts();
-// };
+interface UpdateProfilePayload {
+  name: string;
+  image?: string;
+}
 
+export const updateProfile = async (payload: UpdateProfilePayload) => {
+  try {
+    const { error } = await userService.updateProfile(payload);
+    if (error) return { error };
+    return { success: true };
+  } catch (err: any) {
+    return { error: { message: err.message || "Something went wrong!" } };
+  }
+};

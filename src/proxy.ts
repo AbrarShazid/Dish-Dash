@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
 
   let isAuthenticated = false;
-  let userRole = Roles.public;
+  let userRole = "";
 
   const { data } = await userService.getSession();
 
@@ -63,8 +63,6 @@ export const config = {
     "/my-order/:path*",
   ],
 };
-
-
 
 // import { NextRequest, NextResponse } from "next/server";
 // import { userService } from "./services/user.service";

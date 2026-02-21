@@ -51,9 +51,11 @@ export default async function AllProvidersPage() {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center text-muted-foreground">
-                  No Image
-                </div>
+                <img
+                  src="https://surl.li/dmztmi"
+                  alt={provider.restaurantName}
+                  className="h-full w-full object-cover"
+                />
               )}
             </div>
 

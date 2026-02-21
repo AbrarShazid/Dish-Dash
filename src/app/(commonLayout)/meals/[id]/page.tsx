@@ -7,31 +7,21 @@ export default async function ItemDetails({
 }) {
   const { id } = await params;
 
-    const {data}=await menuService.getMenuById(id);
+  const { data } = await menuService.getMenuById(id);
 
+  return (
+    <div className="bg-gray-400 text-black rounded-2xl p-4">
+      <h1>{data?.data.name}</h1>
+      <p>{data?.data.description}</p>
 
+      <img
+        src={data?.data.imageUrl || "https://surl.li/swgyfr"}
+        alt={data?.data.name || "Meal Image"}
+      />
 
-
-  return <div className="bg-gray-400 text-black rounded-2xl p-4">
-
-
-
-
-    <h1>{data?.data.name}</h1>
-    <p>{data?.data.description}</p>
-
-        <img src={data?.data.imageUrl || ""} alt={data?.data.name || "Meal Image"} />
-
-    <p>Price: ${data?.data.price}</p>
-    <p>Category: {data?.data.categoryName}</p>
-    <p>Provider: {data?.data.providerName}</p>  
-
-
-    
-
-
-
-
-    
-  </div>;
+      <p>Price: ${data?.data.price}</p>
+      <p>Category: {data?.data.categoryName}</p>
+      <p>Provider: {data?.data.providerName}</p>
+    </div>
+  );
 }
