@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default async function AllMealsPage() {
   const { data, error } = await menuService.getAllMenuItem();
-  console.log(data.data);
+
   return (
     <div className=" flex gap-3">
       {data ? (
