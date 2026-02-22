@@ -1,0 +1,65 @@
+import { env } from "@/env";
+import { cookies } from "next/headers";
+
+const BACKEND_URL = env.BACKEND_URL;
+
+export const orderService = {
+  getOrderDetails: async function (orderId: string) {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/order/details/${orderId}`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const orderDetails = await res.json();
+
+      if (orderDetails.success === true) {
+        return { data: orderDetails.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: {
+          message: orderDetails.message || "Failed to fetch order details!",
+        },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+
+  updateOrderStatus: async function (orderId: string, status: string) {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/order/${orderId}/status`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify({ status }),
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success === true) {
+        return { data: result.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: {
+          message: result.message || "Failed to update order status!",
+        },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+};
