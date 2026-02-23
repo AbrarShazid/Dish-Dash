@@ -1,15 +1,17 @@
 import { ShoppingCart, Store } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function MenuItemCard({ item }: { item: any }) {
   return (
     <div className="group relative bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all p-3">
       {/* Image placeholder */}
-      <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg mb-3 flex items-center justify-center">
+      <div className="aspect-square bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg mb-3 flex items-center justify-center">
         {item.imageUrl ? (
-          <img
+          <Image
             src={item.imageUrl}
             alt={item.name}
+            quality={50}
             className="w-full h-full object-cover rounded-lg"
           />
         ) : (

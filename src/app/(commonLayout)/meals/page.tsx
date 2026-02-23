@@ -38,7 +38,7 @@ export default async function AllMealsPage({
       initialData={data} 
       error={error} 
       searchParams={params} 
-      categories={categoryData?.data || []} 
+      categories={categoryData|| []} 
     />
   );
 }

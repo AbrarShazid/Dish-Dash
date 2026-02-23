@@ -5,7 +5,9 @@ const BACKEND_URL = env.BACKEND_URL;
 export const categoryService = {
   getAllCategory: async function () {
     try {
-      const res = await fetch(`${BACKEND_URL}/category/get-all-category`);
+      const res = await fetch(`${BACKEND_URL}/category/get-all-category`, {
+        next: { revalidate: 120 },
+      });
       const categoryData = await res.json();
 
       if (categoryData.success === true) {
