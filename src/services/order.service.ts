@@ -4,6 +4,36 @@ import { cookies } from "next/headers";
 const BACKEND_URL = env.BACKEND_URL;
 
 export const orderService = {
+  getMyOrder: async function () {
+   try {
+    
+
+     const cookieStore = await cookies();
+
+    const res = await fetch(`${BACKEND_URL}/order/my-orders`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+      cache: "no-store",
+    });
+
+    const allOrder = await res.json();
+
+    if (allOrder.success === true) {
+      return { data: allOrder.data, error: null };
+    }
+    return {
+      data: null,
+      error: {
+        message: allOrder.message || "Failed to fetch order details!",
+      },
+    };
+   } catch (error) {
+     return { data: null, error: { message: "Something went wrong!" } };
+    
+   }
+  },
+
   getOrderDetails: async function (orderId: string) {
     try {
       const cookieStore = await cookies();

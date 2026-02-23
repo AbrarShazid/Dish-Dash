@@ -1,4 +1,5 @@
-import OrderStatusUpdate from "@/components/modules/order/orderStatusUpdate";
+
+import OrderCancelAndReview from "@/components/modules/order/orderCancelAndReview";
 import { orderService } from "@/services/order.service";
 
 export default async function OrderDetails({
@@ -14,5 +15,5 @@ export default async function OrderDetails({
     return <div>Order not found</div>;
   }
 
-  return <OrderStatusUpdate order={data} />;
+  return <OrderCancelAndReview order={data} />;
 }

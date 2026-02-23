@@ -22,8 +22,8 @@ export async function proxy(request: NextRequest) {
   if (userRole === Roles.admin) {
     if (
       pathName.startsWith("/dashboard") ||
-      pathName.startsWith("/my-order") ||
-      pathName.startsWith("/order")
+      pathName.startsWith("/my-orders") ||
+      pathName.startsWith("/orders")
     ) {
       return NextResponse.redirect(new URL("/admin-dashboard", request.url));
     }
@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest) {
   if (userRole === Roles.provider) {
     if (
       pathName.startsWith("/admin-dashboard") ||
-      pathName.startsWith("/my-order")
+      pathName.startsWith("/my-orders")
     ) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest) {
   if (userRole === Roles.customer) {
     if (
       pathName.startsWith("/dashboard") ||
-      pathName.startsWith("/order") ||
+      pathName.startsWith("/orders") ||
       pathName.startsWith("/admin-dashboard")
     ) {
       return NextResponse.redirect(new URL("/", request.url));
@@ -57,10 +57,10 @@ export const config = {
     "/dashboard/:path*",
     "/admin-dashboard",
     "/admin-dashboard/:path*",
-    "/order",
-    "/order/:path*",
-    "/my-order",
-    "/my-order/:path*",
+    "/orders",
+    "/orders/:path*",
+    "/my-orders",
+    "/my-orders/:path*",
   ],
 };
 

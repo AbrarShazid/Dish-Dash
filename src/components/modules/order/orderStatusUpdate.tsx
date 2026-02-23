@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { updateOrderStatus } from "@/actions/order.action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { orderStatus } from "@/constants/orderStatus";
 
 interface Meals {
   mealName: string;
@@ -35,19 +36,18 @@ const statusColors: Record<string, string> = {
   PLACED: "bg-yellow-100 text-yellow-800",
 };
 
-// Define valid next statuses based on current status
-// This should match your backend rules
+
 const getNextPossibleStatuses = (currentStatus: string): string[] => {
   switch (currentStatus) {
-    case "PLACED":
-      return ["PREPARING", "CANCELLED"]; // Can only go to PREPARING or CANCELLED from PLACED
-    case "PREPARING":
-      return ["READY"]; // Can only go to READY from PREPARING
-    case "READY":
-      return ["DELIVERED"]; // Can only go to DELIVERED from READY
-    case "DELIVERED":
-    case "CANCELLED":
-      return []; // Terminal states - no further updates
+    case orderStatus.placed:
+      return [orderStatus.preparing, orderStatus.cancelled];
+    case orderStatus.preparing:
+      return [orderStatus.ready]; 
+    case orderStatus.ready:
+      return [orderStatus.delivered]; 
+    case orderStatus.delivered:
+    case orderStatus.cancelled:
+      return []; 
     default:
       return [];
   }
@@ -78,7 +78,7 @@ export default function OrderStatusUpdate({ order }: Props) {
 
         router.refresh();
       } catch (err: any) {
-        // Update the toast to error
+      
         toast.error(err.message || "Failed to update status", {
           id: toastId,
         });
@@ -164,8 +164,8 @@ export default function OrderStatusUpdate({ order }: Props) {
       )}
 
       {/* Show message when order is in final state */}
-      {(order.orderStatus === "DELIVERED" ||
-        order.orderStatus === "CANCELLED") && (
+      {(order.orderStatus === orderStatus.delivered ||
+        order.orderStatus === orderStatus.cancelled) && (
         <div className="bg-gray-50 border rounded-xl p-5 text-center text-gray-600">
           This order is {order.orderStatus.toLowerCase()} and cannot be
           modified.
