@@ -5,7 +5,7 @@ interface GetAllMenuItemParams {
   limit?: number;
   skip?: number;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: string
   search?: string;
   categoryId?: string;
   minPrice?: number;

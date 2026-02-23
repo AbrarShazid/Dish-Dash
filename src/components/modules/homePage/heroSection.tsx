@@ -86,7 +86,7 @@ export default function HeroSection() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     priority
-                    quality={80}
+                    quality={75}
                   />
                 </div>
                 <div className="relative rounded-2xl aspect-square overflow-hidden group">
@@ -98,7 +98,7 @@ export default function HeroSection() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     priority
-                    quality={80}
+                    quality={75}
                   />
                 </div>
               </div>
@@ -114,7 +114,7 @@ export default function HeroSection() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     priority
-                    quality={80}
+                    quality={75}
                   />
                 </div>
                 <div className="relative rounded-2xl aspect-square overflow-hidden group">
@@ -126,7 +126,7 @@ export default function HeroSection() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     priority
-                    quality={80}
+                    quality={75}
                   />
                 </div>
               </div>
