@@ -7,9 +7,8 @@ export const providerService = {
   getAllProvider: async function () {
     try {
       const res = await fetch(`${backendUrl}/provider`, {
-        // cache: "no-store",
+        cache: "no-store",
 
-        next: { revalidate: 60 },
       });
 
       const allProvider = await res.json();

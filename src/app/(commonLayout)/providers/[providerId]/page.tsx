@@ -1,7 +1,4 @@
-import Link from "next/link";
 import { providerService } from "@/services/provider.service";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { mealItem } from "@/types";
 import MenuItemCard from "@/components/modules/homePage/itemCard";
@@ -25,7 +22,7 @@ export default async function ProviderWithMenu({
 
   return (
     <div className="container mx-auto py-16 px-4">
-      {/* 🔥 Restaurant Header */}
+      {/*  Restaurant Header */}
       <div className="mb-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -42,7 +39,7 @@ export default async function ProviderWithMenu({
         </div>
       </div>
 
-      {/* 🔥 Menu Section */}
+      {/* Menu Section */}
       <div>
         <h2 className="text-2xl font-semibold mb-6">Menu</h2>
 

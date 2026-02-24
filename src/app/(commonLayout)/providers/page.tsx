@@ -1,94 +1,40 @@
-import Link from "next/link";
+import RestaurantCard from "@/components/modules/restaurantPage/restaurantCard";
 import { providerService } from "@/services/provider.service";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
-interface Provider {
-  providerId: string;
-  restaurantName: string;
-  description: string;
-  image: string | null;
-  isOpen: boolean;
-  createdAt: string;
-  restauranOwner: string;
-}
+import { Provider } from "@/types";
 
 export default async function AllProvidersPage() {
   const { data, error } = await providerService.getAllProvider();
 
   if (error) {
     return (
-      <div className="container mx-auto py-20 text-center text-red-500">
-        {error.message}
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <div className="text-center p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+          <p className="text-red-500 dark:text-red-400">{error.message}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-16 px-4">
-      {/* Page Title */}
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold mb-3">All Restaurants</h1>
-        <p className="text-muted-foreground">
-          Discover amazing food providers near you
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 rounded-xl">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            All Restaurants
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Discover amazing food providers near you and explore their delicious
+            menus
+          </p>
+        </div>
 
-      {/* Grid */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((provider: Provider) => (
-          <Card
-            key={provider.providerId}
-            className="overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
-          >
-            {/* Image */}
-            <div className="h-48 w-full bg-gray-200 dark:bg-gray-800">
-              {provider.image ? (
-                <img
-                  src={provider.image}
-                  alt={provider.restaurantName}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <img
-                  src="https://surl.li/dmztmi"
-                  alt={provider.restaurantName}
-                  className="h-full w-full object-cover"
-                />
-              )}
-            </div>
-
-            <CardHeader className="flex flex-row items-start justify-between space-y-0">
-              <div>
-                <h2 className="text-xl font-semibold">
-                  {provider.restaurantName}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Owner: {provider.restauranOwner}
-                </p>
-              </div>
-
-              <Badge variant={provider.isOpen ? "default" : "destructive"}>
-                {provider.isOpen ? "Open" : "Closed"}
-              </Badge>
-            </CardHeader>
-
-            <CardContent className="flex flex-col flex-1 space-y-4">
-              <p className="text-sm text-muted-foreground line-clamp-3">
-                {provider.description}
-              </p>
-
-              <div className="mt-auto">
-                <Button asChild className="w-full">
-                  <Link href={`/providers/${provider.providerId}`}>
-                    View Menu
-                  </Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {/* Restaurants Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
+          {data?.map((provider: Provider) => (
+            <RestaurantCard key={provider.providerId} provider={provider} />
+          ))}
+        </div>
       </div>
     </div>
   );
