@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { mealItem } from "@/types";
+import MenuItemCard from "@/components/modules/homePage/itemCard";
 
 export default async function ProviderWithMenu({
   params,
@@ -45,42 +46,9 @@ export default async function ProviderWithMenu({
       <div>
         <h2 className="text-2xl font-semibold mb-6">Menu</h2>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {data.menu.map((item: mealItem) => (
-            <Card
-              key={item.id}
-              className="flex flex-col hover:shadow-lg transition-shadow"
-            >
-              {/* Image */}
-              <div className="h-40 bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-                <img
-                  src={item.image || "https://surl.li/swgyfr"}
-                  alt={item.name}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <CardContent className="flex flex-col flex-1 p-5">
-                <h3 className="text-lg font-semibold">{item.name}</h3>
-
-                <p className="text-sm text-muted-foreground mb-2">
-                  {item.description || "No description available"}
-                </p>
-
-                <p className="font-bold text-amber-600 mb-4">৳ {item.price}</p>
-
-                {/* Buttons */}
-                <div className="mt-auto flex gap-3">
-                  <Button className="flex-1" disabled={!data.isOpen}>
-                    Add to Cart
-                  </Button>
-
-                  <Button variant="outline" asChild className="flex-1">
-                    <Link href={`/meals/${item.id}`}>View Details</Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <MenuItemCard key={item.id} item={item}></MenuItemCard>
           ))}
         </div>
       </div>

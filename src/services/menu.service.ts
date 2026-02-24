@@ -62,7 +62,9 @@ export const menuService = {
 
   getMenuById: async function (id: string) {
     try {
-      const res = await fetch(`${API_URL}/menu/${id}`);
+      const res = await fetch(`${API_URL}/menu/${id}`,{
+        cache:"no-store"
+      });
       const menuItem = await res.json();
 
       if (menuItem.success === true) {

@@ -6,8 +6,13 @@ import { useRouter, usePathname } from "next/navigation";
 
 import { Search, X, Filter, ChevronLeft, ChevronRight } from "lucide-react";
 import MenuItemCard from "../homePage/itemCard";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Category {
   id: string;
@@ -23,7 +28,12 @@ const sortOptions = [
   { value: "createdAt-asc", label: "Oldest First" },
 ];
 
-export default function MealsClient({ initialData, error, searchParams, categories }: any) {
+export default function MealsClient({
+  initialData,
+  error,
+  searchParams,
+  categories,
+}: any) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -154,7 +164,7 @@ export default function MealsClient({ initialData, error, searchParams, categori
           {/* Meals Grid - 3/4 width */}
           <div className="flex-1">
             {/* Search Bar - Top of the grid area */}
-            <div className="mb-6 lg:hidden">
+            <div className="mb-3 ">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
@@ -182,19 +192,6 @@ export default function MealsClient({ initialData, error, searchParams, categori
               </div>
             ) : (
               <>
-                {/* Search */}
-                <div className="mb-6">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Search meals..."
-                      className="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    />
-                  </div>
-                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {meals.map((item: any) => (
                     <MenuItemCard key={item.id} item={item} />
@@ -322,7 +319,10 @@ function FilterSidebar({
             </span>
           </label>
           {categories.map((category: any) => (
-            <label key={category.id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1 rounded">
+            <label
+              key={category.id}
+              className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1 rounded"
+            >
               <input
                 type="radio"
                 name="category"
