@@ -2,22 +2,22 @@ import { orderService } from "@/services/order.service";
 import { orderStatus } from "@/constants/orderStatus";
 import Link from "next/link";
 
-function getStatusColor(status: string) {
-  switch (status) {
-    case "PLACED":
-      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
-    case "PREPARING":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
-    case "READY":
-      return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400";
-    case "DELIVERED":
-      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
-    case "CANCELLED":
-      return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
-    default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
-  }
-}
+// function getStatusColor(status: string) {
+//   switch (status) {
+//     case "PLACED":
+//       return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
+//     case "PREPARING":
+//       return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
+//     case "READY":
+//       return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400";
+//     case "DELIVERED":
+//       return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
+//     case "CANCELLED":
+//       return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+//     default:
+//       return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+//   }
+// }
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -105,9 +105,9 @@ export default async function Myorder() {
                       </p>
                     </div>
                     <span
-                      className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusColor(
-                        order.status,
-                      )}`}
+                      className={`px-3 py-1 text-xs font-medium rounded-full 
+                        
+                        `}
                     >
                       {order.status}
                     </span>
@@ -161,25 +161,6 @@ export default async function Myorder() {
                       </span>
                     )}
                   </div>
-
-                  {/* Simple Progress Indicator */}
-                  {isActive && (
-                    <div className="mt-3 pt-3 border-t dark:border-gray-800">
-                      <div className="w-full h-1 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${
-                            order.status === "PLACED"
-                              ? "w-1/4 bg-yellow-500"
-                              : order.status === "PREPARING"
-                                ? "w-1/2 bg-blue-500"
-                                : order.status === "READY"
-                                  ? "w-3/4 bg-purple-500"
-                                  : "w-full bg-green-500"
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  )}
                 </div>
               </Link>
             );

@@ -10,7 +10,7 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 
 const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  image: z.instanceof(File).or(z.null()),
+  image: z.instanceof(File).nullable(),
 });
 
 type UpdateProfileFormProps = {
@@ -46,7 +46,6 @@ export default function UpdateProfileForm({
         let imageUrl: string | undefined;
 
         if (value.image instanceof File) {
-          // Validate file size (e.g., max 5MB)
           if (value.image.size > 5 * 1024 * 1024) {
             throw new Error("Image size must be less than 5MB");
           }

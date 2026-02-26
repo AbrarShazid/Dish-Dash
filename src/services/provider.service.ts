@@ -1,4 +1,5 @@
 import { env } from "@/env";
+import { BecomeProviderPayload } from "@/types";
 import { cookies } from "next/headers";
 
 const backendUrl = env.BACKEND_URL;
@@ -8,7 +9,6 @@ export const providerService = {
     try {
       const res = await fetch(`${backendUrl}/provider`, {
         cache: "no-store",
-
       });
 
       const allProvider = await res.json();
@@ -74,6 +74,32 @@ export const providerService = {
       };
     } catch (error) {
       return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+
+  becomeProvider: async function (payload: BecomeProviderPayload) {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(
+        `${process.env.BACKEND_URL}/provider/become-provider`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+            cookie: cookieStore.toString(),
+          },
+        },
+      );
+
+      const result = await res.json();
+      if (result.success) return { data: result.data, error: null };
+      return { data: null, error: { message: result.message } };
+    } catch (error: any) {
+      return {
+        data: null,
+        error: { message: error.message || "Something went wrong!" },
+      };
     }
   },
 };

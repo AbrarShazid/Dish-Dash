@@ -1,2 +1,3 @@
 export type * from "./mealItem.type"
 export type * from "./restaurant.type"
+export type * from "./becomeProvider"
