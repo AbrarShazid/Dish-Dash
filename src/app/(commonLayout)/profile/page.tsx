@@ -31,7 +31,7 @@ export default async function MyProfile() {
         <CardHeader className="flex flex-col items-center text-center space-y-4">
           <Avatar className="h-24 w-24">
             <AvatarImage src={data.image || ""} />
-            <AvatarFallback className="bg-gradient-to-r from-amber-500 to-orange-600 text-white text-lg">
+            <AvatarFallback className="bg-linear-to-r from-amber-500 to-orange-600 text-white text-lg">
               {getInitials()}
             </AvatarFallback>
           </Avatar>
