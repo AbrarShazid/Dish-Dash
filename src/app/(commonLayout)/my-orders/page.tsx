@@ -67,7 +67,7 @@ export default async function MyOrder() {
         </div>
 
         {/* Orders List */}
-        <div className="space-y-3">
+        <div className="space-y-3 ">
           {data.map((order: any) => {
             const isActive =
               order.status !== orderStatus.delivered &&
@@ -75,8 +75,8 @@ export default async function MyOrder() {
             const canCancel = order.status === orderStatus.placed;
 
             return (
-              <Link href={`/my-orders/${order.orderId}`} key={order.orderId}>
-                <div className="bg-white dark:bg-gray-900 rounded-xl border dark:border-gray-800 p-4 hover:shadow-md transition-shadow cursor-pointer">
+              <Link href={`/my-orders/${order.orderId}`} key={order.orderId} >
+                <div className="bg-white dark:bg-gray-900 rounded-xl border dark:border-gray-800 p-4 hover:shadow-md transition-shadow cursor-pointer   mb-4">
                   {/* Top Row */}
                   <div className="flex items-start justify-between mb-3">
                     <div>

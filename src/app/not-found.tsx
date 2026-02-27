@@ -37,7 +37,7 @@ export default function NotFound() {
             </Link>
           </Button>
           
-          <Button asChild size="lg" className="gap-2 bg-gradient-to-r from-amber-600 to-orange-600">
+          <Button asChild size="lg" className="gap-2 bg-linear-to-r from-amber-600 to-orange-600">
             <Link href="/">
               Back to Home
             </Link>

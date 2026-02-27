@@ -27,7 +27,7 @@ export default async function MyProfile() {
 
   return (
     <div className="container mx-auto py-16 px-4 max-w-3xl">
-      <Card className="shadow-lg">
+      <Card className="shadow-lg bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
         <CardHeader className="flex flex-col items-center text-center space-y-4">
           <Avatar className="h-24 w-24">
             <AvatarImage src={data.image || ""} />

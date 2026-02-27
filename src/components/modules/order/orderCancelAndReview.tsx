@@ -7,14 +7,14 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { orderStatus } from "@/constants/orderStatus";
 import Link from "next/link";
-import { Star, StarHalf } from "lucide-react";
+import { Star } from "lucide-react";
 import { createReview } from "@/actions/review.action";
 
 interface Meals {
   mealName: string;
   quantity: number;
   price: string;
-  mealId: string; // Make sure mealId is included
+  mealId: string;
 }
 
 interface OrderPayload {
@@ -26,7 +26,7 @@ interface OrderPayload {
   updatedAt: Date;
   restaurantName: string;
   customerName: string;
-  items: (Meals & { orderItemId?: string })[] | null; // Add orderItemId if available
+  items: (Meals & { orderItemId?: string })[] | null;
 }
 
 interface Props {

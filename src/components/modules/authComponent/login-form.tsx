@@ -64,7 +64,6 @@ export function LoginForm({
         form.reset();
         router.push("/");
         router.refresh();
-        
       } catch (err) {
         toast.error("Something Went Wrong! Try Again Later", { id: toastId });
       }
@@ -73,7 +72,7 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Log In your account</CardTitle>
           <CardDescription>

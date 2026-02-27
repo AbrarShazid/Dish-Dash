@@ -1,23 +1,21 @@
-import OrderCancelAndReview from "@/components/modules/order/orderCancelAndReview";
+
+import OrderStatusUpdate from "@/components/modules/order/orderStatusUpdate";
 
 import { orderService } from "@/services/order.service";
 
 export default async function OrderDetails({
   params,
 }: {
-  params: { orderId: string };
+  params: { orderID: string };
 }) {
-  const { orderId } = await params;
-
-  const { data, error } = await orderService.getOrderDetails(orderId);
-
+  const { orderID } = await params;
+  const { data, error } = await orderService.getOrderDetails(orderID);
   if (error || !data) {
     return <div>Order not found</div>;
   }
-
-  return <div>
-
-asd
-    <OrderCancelAndReview order={data}  />
-  </div>
+  return (
+    <div>
+      <OrderStatusUpdate order={data} />
+    </div>
+  );
 }

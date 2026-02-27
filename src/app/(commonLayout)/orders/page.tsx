@@ -49,7 +49,7 @@ export default async function ProviderOrder() {
     <div className="max-w-5xl mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Orders</h1>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-500 dark:text-gray-200">
           Total: {data.length} orders
         </div>
       </div>
@@ -58,14 +58,14 @@ export default async function ProviderOrder() {
         {data.map((order: any) => (
           <div
             key={order.orderId}
-            className="border rounded-xl p-5 shadow-sm bg-white hover:shadow-md transition"
+            className=" p-5 shadow-sm hover:shadow-md      bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all"
           >
             <div className="flex justify-between items-center mb-3">
               <div>
-                <p className="font-semibold text-gray-900">
+                <p className="font-semibold text-gray-900 dark:text-white">
                   Order #{order.orderId.slice(0, 8)}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 mt-1 dark:text-white">
                   {new Date(order.createdAt).toLocaleString()}
                 </p>
               </div>
@@ -79,7 +79,7 @@ export default async function ProviderOrder() {
               </span>
             </div>
 
-            <div className="space-y-2 text-sm text-gray-600">
+            <div className="space-y-2 text-sm text-gray-600 dark:text-white">
               <p>
                 <span className="font-medium">Customer:</span>{" "}
                 {order.customerName}
