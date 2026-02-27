@@ -13,7 +13,7 @@ export default function RestaurantCard({ provider }: { provider: Provider }) {
           <img
             src={provider.image}
             alt={provider.restaurantName}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">

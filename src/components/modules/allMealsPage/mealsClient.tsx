@@ -1,4 +1,3 @@
-// components/modules/allMealsPage/mealsClient.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,11 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-interface Category {
-  id: string;
-  name: string;
-}
 
 const sortOptions = [
   { value: "price-asc", label: "Price: Low to High" },
@@ -77,18 +71,10 @@ export default function MealsClient({
     router.push(pathname);
   };
 
-  // Handle search with debounce
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      updateFilters();
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [search]);
-
   // Handle other filters
   useEffect(() => {
     updateFilters();
-  }, [categoryId, minPrice, maxPrice, sortBy, currentPage]);
+  }, [categoryId, minPrice, maxPrice, sortBy, currentPage, search]);
 
   if (error) {
     return (
@@ -105,7 +91,7 @@ export default function MealsClient({
   const totalPages = Math.ceil(meta.total / meta.limit);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 rounded-xl">
       <div className="max-w-7xl mx-auto px-4 py-5">
         {/* Mobile Filter Button */}
         <div className="lg:hidden mb-4">

@@ -12,7 +12,7 @@ export default function CommonLayout({
 
       <main className="flex-1">
         <div className="container mx-auto sm:px-4  py-8">
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-xl sm:p-6 p-3">
+          <div className="bg-linear-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-xl sm:p-6 p-3">
             {children}
           </div>
         </div>

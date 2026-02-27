@@ -1,8 +1,23 @@
+"use client";
+import { useCart } from "@/context/cartContext";
 import { ShoppingCart, Store } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function MenuItemCard({ item }: { item: any }) {
+  const { addItem } = useCart();
+
+  const handleAddToCart = () => {
+    addItem({
+      mealId: item.id,
+      mealName: item.name,
+      price: parseFloat(item.price),
+      imageUrl: item.imageUrl,
+      providerId: item.providerId,
+      providerName: item.restaurantName,
+    });
+  };
+
   return (
     <div className="group relative bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all p-3">
       {/* Image placeholder */}
@@ -50,7 +65,10 @@ export default function MenuItemCard({ item }: { item: any }) {
         >
           Details
         </Link>
-        <button className="ml-auto flex items-center gap-1 text-xs font-medium text-white bg-black dark:bg-white dark:text-black px-3 py-1.5 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition">
+        <button
+          onClick={handleAddToCart}
+          className="ml-auto flex items-center gap-1 text-xs font-medium text-white bg-black dark:bg-white dark:text-black px-3 py-1.5 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition"
+        >
           <ShoppingCart className="w-3 h-3" />
           Add
         </button>

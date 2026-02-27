@@ -1,6 +1,9 @@
-import Link from "next/link";
+
 import { menuService } from "@/services/menu.service";
+
 import MenuItemCard from "./itemCard";
+import Link from "next/link";
+
 
 export default async function MenuItemForHome() {
   const { data, error } = await menuService.getAllMenuItem({
@@ -49,5 +52,6 @@ export default async function MenuItemForHome() {
         </div>
       )}
     </section>
+  
   );
 }
