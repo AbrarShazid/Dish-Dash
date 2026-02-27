@@ -36,7 +36,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
-
   const [providerId, setProviderId] = useState<string | null>(null);
   const [providerName, setProviderName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,7 +74,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, providerId, providerName, isLoading]);
 
   const addItem = (newItem: Omit<CartItem, "quantity">) => {
-    // Check if item already exists in cart
     const existingItem = items.find((item) => item.mealId === newItem.mealId);
 
     if (existingItem) {
@@ -84,8 +82,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       );
       return;
     }
-
-    // If cart is empty, set provider info
     if (items.length === 0) {
       setProviderId(newItem.providerId);
       setProviderName(newItem.providerName);

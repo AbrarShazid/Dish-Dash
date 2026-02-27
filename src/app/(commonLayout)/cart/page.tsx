@@ -8,7 +8,6 @@ import {
   Trash2,
   ShoppingBag,
   ArrowRight,
-  Store,
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
@@ -22,7 +21,6 @@ export default function CartPage() {
     clearCart,
     getCartTotal,
     getItemCount,
-    providerName,
     isLoading,
   } = useCart();
 
@@ -77,7 +75,7 @@ export default function CartPage() {
             Clear Cart
           </Button>
         </div>
-        
+
         <div className="grid lg:grid-cols-3 gap-8 ">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4 ">
@@ -164,8 +162,6 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <Card className="p-6 sticky top-24 space-y-2          bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
-              {/* Delivery Address */}
-
               {/* Price Summary */}
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">

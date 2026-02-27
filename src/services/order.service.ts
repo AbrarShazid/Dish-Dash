@@ -4,34 +4,59 @@ import { cookies } from "next/headers";
 const BACKEND_URL = env.BACKEND_URL;
 
 export const orderService = {
-  getMyOrder: async function () {
-   try {
-    
+  createOrder: async function (payload: any) {
+    try {
+      const cookieStore = await cookies();
 
-     const cookieStore = await cookies();
+      const res = await fetch(`${BACKEND_URL}/order/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const res = await fetch(`${BACKEND_URL}/order/my-orders`, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-      cache: "no-store",
-    });
+      const orderCreate = await res.json();
 
-    const allOrder = await res.json();
+      if (orderCreate.success === true) {
+        return { data: orderCreate.data, error: null };
+      }
 
-    if (allOrder.success === true) {
-      return { data: allOrder.data, error: null };
+      return {
+        data: null,
+        error: { message: orderCreate.message || "Failed to create order" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
     }
-    return {
-      data: null,
-      error: {
-        message: allOrder.message || "Failed to fetch order details!",
-      },
-    };
-   } catch (error) {
-     return { data: null, error: { message: "Something went wrong!" } };
-    
-   }
+  },
+
+  getMyOrder: async function () {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/order/my-orders`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const allOrder = await res.json();
+
+      if (allOrder.success === true) {
+        return { data: allOrder.data, error: null };
+      }
+      return {
+        data: null,
+        error: {
+          message: allOrder.message || "Failed to fetch order details!",
+        },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
   },
 
   getOrderDetails: async function (orderId: string) {
