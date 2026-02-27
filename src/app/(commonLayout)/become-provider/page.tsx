@@ -116,9 +116,9 @@ export default function BecomeProvider({
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12">
+    <div className="min-h-screen rounded-xl bg-gray-50 dark:bg-gray-950 py-12">
       <div className="max-w-2xl mx-auto px-4">
-        <Card className="border-gray-200 dark:border-gray-800 shadow-lg">
+        <Card className=" shadow-lg      bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
           <CardHeader className="text-center pb-8">
             <div className="mx-auto w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mb-4">
               <Store className="w-8 h-8 text-orange-600 dark:text-orange-400" />

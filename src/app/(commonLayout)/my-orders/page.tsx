@@ -2,23 +2,6 @@ import { orderService } from "@/services/order.service";
 import { orderStatus } from "@/constants/orderStatus";
 import Link from "next/link";
 
-// function getStatusColor(status: string) {
-//   switch (status) {
-//     case "PLACED":
-//       return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
-//     case "PREPARING":
-//       return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
-//     case "READY":
-//       return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400";
-//     case "DELIVERED":
-//       return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
-//     case "CANCELLED":
-//       return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
-//     default:
-//       return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
-//   }
-// }
-
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
     month: "short",
@@ -28,7 +11,7 @@ function formatDate(dateString: string) {
   });
 }
 
-export default async function Myorder() {
+export default async function MyOrder() {
   const { data, error } = await orderService.getMyOrder();
 
   if (error) {
@@ -48,7 +31,7 @@ export default async function Myorder() {
 
   if (!data || data.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 ">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white dark:bg-gray-900 rounded-xl border dark:border-gray-800 p-12 text-center">
             <div className="text-6xl mb-4">🍽️</div>
@@ -71,9 +54,8 @@ export default async function Myorder() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4">
+    <div className="min-h-screen rounded-xl bg-gray-50 dark:bg-gray-950 p-4">
       <div className="max-w-4xl mx-auto">
-
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -85,15 +67,16 @@ export default async function Myorder() {
         </div>
 
         {/* Orders List */}
-        <div className="space-y-3 ">
+        <div className="space-y-3">
           {data.map((order: any) => {
             const isActive =
-              order.status !== orderStatus.delivered && order.status !== orderStatus.cancelled;
+              order.status !== orderStatus.delivered &&
+              order.status !== orderStatus.cancelled;
             const canCancel = order.status === orderStatus.placed;
 
             return (
               <Link href={`/my-orders/${order.orderId}`} key={order.orderId}>
-                <div className="bg-white dark:bg-gray-900 rounded-xl border dark:border-gray-800 p-4 hover:shadow-md transition-shadow cursor-pointer mt-4">
+                <div className="bg-white dark:bg-gray-900 rounded-xl border dark:border-gray-800 p-4 hover:shadow-md transition-shadow cursor-pointer">
                   {/* Top Row */}
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -104,11 +87,7 @@ export default async function Myorder() {
                         {formatDate(order.createdAt)}
                       </p>
                     </div>
-                    <span
-                      className={`px-3 py-1 text-xs font-medium rounded-full 
-                        
-                        `}
-                    >
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
                       {order.status}
                     </span>
                   </div>
@@ -119,47 +98,36 @@ export default async function Myorder() {
                       {order.restaurantName}
                     </p>
                     {order.items && order.items.length > 0 && (
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                        {order.items.map((item: any, index: number) => (
-                          <span key={item.mealId}>
-                            {item.quantity}x {item.mealName}
-                            {index < order.items.length - 1 ? ", " : ""}
-                          </span>
-                        ))}
-                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
+                        {order.items
+                          .map(
+                            (item: any) => `${item.quantity}x ${item.mealName}`,
+                          )
+                          .join(", ")}
+                      </p>
                     )}
                   </div>
 
                   {/* Bottom Row */}
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <span className="font-semibold text-gray-900 dark:text-white">
                         ${order.totalAmount}
                       </span>
-                      <span className="text-gray-500 dark:text-gray-400 truncate max-w-[200px] sm:max-w-[300px]">
+                      <span className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-37.5">
                         📍 {order.deliveryAddress}
                       </span>
                     </div>
 
-                    {/* Conditional Button Text */}
-                    {isActive && (
-                      <span
-                        className={`text-xs font-medium ${
-                          canCancel
-                            ? "text-red-500 dark:text-red-400"
-                            : "text-gray-400 dark:text-gray-500"
-                        }`}
-                      >
-                        {canCancel ? "Cancel order →" : "View details →"}
-                      </span>
-                    )}
-
-                    {/* For delivered/cancelled orders,  view details */}
-                    {!isActive && (
-                      <span className="text-xs text-gray-400 dark:text-gray-500">
-                        View details →
-                      </span>
-                    )}
+                    <span
+                      className={`text-xs font-medium ${
+                        canCancel
+                          ? "text-red-500 dark:text-red-400"
+                          : "text-gray-400 dark:text-gray-500"
+                      }`}
+                    >
+                      {canCancel ? "Cancel" : "Details"} →
+                    </span>
                   </div>
                 </div>
               </Link>

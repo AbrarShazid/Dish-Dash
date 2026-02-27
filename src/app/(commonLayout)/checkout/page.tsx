@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cartContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, MapPin, Store } from "lucide-react";
+import { ArrowLeft, Loader2, MapPin, Store } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { createOrder } from "@/actions/order.action";
@@ -25,26 +25,35 @@ export default function CheckoutPage() {
 
   const [address, setAddress] = useState("");
   const [isPlacing, setIsPlacing] = useState(false);
+  const [orderCreate, setOrderCreate] = useState(false);
+
+  // Handle redirect in useEffect
+  useEffect(() => {
+    if (orderCreate === true) {
+      router.push("/my-orders");
+    } else if (!isLoading && items.length === 0) {
+      router.push("/meals");
+    }
+  }, [isLoading, items.length, router]);
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
-        <div className="text-center">Loading...</div>
+        <Button disabled size="lg">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Loading...
+        </Button>
       </div>
     );
   }
-
   if (items.length === 0) {
-    router.push("/meals");
     return null;
   }
-
   const handlePlaceOrder = async () => {
     if (!address.trim()) {
       toast.error("Please enter delivery address");
       return;
     }
-
     setIsPlacing(true);
 
     const checkoutData = getCheckoutData();
@@ -62,10 +71,9 @@ export default function CheckoutPage() {
         setIsPlacing(false);
         return;
       }
-
       clearCart();
       toast.success("Order placed successfully!");
-      router.push("/my-orders");
+      setOrderCreate(true);
     } catch (error) {
       toast.error("Failed to place order");
     } finally {
@@ -92,7 +100,7 @@ export default function CheckoutPage() {
               Checkout
             </h1>
 
-            <Card className="p-6 space-y-6">
+            <Card className="p-6 space-y-6 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
               {/* Provider Info */}
               {providerName && (
                 <div className="flex items-center gap-3 pb-4 border-b">
@@ -139,7 +147,7 @@ export default function CheckoutPage() {
 
           {/* Order Total */}
           <div>
-            <Card className="p-6 sticky top-24">
+            <Card className="p-6 sticky top-24 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
               <h2 className="text-xl font-semibold mb-4">Total</h2>
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-lg font-bold">

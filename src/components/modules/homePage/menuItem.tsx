@@ -12,7 +12,7 @@ export default async function MenuItemForHome() {
 
   return (
     <section className="max-w-7xl mx-auto  py-12">
-      {/* Header with View All */}
+      {/* Header  */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className=" text-3xl font-bold text-gray-900 dark:text-white    mb-2">
@@ -31,7 +31,7 @@ export default async function MenuItemForHome() {
         </Link>
       </div>
 
-      {/* Error or Empty State */}
+      {/* Error or Empty  */}
       {error ? (
         <div className="text-center py-12">
           <p className="text-sm text-red-600 dark:text-red-400">
