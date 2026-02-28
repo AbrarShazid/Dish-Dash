@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { userService } from "./services/user.service";
 import { Roles } from "./constants/roles";
+import { userStatus } from "./constants/userStatus";
 
 export async function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
@@ -19,13 +20,19 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  if (data.user.status === userStatus.SUSPEND) {
+    const url = new URL("/suspended", request.url);
+    return NextResponse.redirect(url);
+  }
+
   if (userRole === Roles.admin) {
     if (
       pathName.startsWith("/dashboard-provider") ||
       pathName.startsWith("/my-orders") ||
       pathName.startsWith("/orders") ||
-      pathName.startsWith("/cart")||
-      pathName.startsWith("/checkout")
+      pathName.startsWith("/cart") ||
+      pathName.startsWith("/checkout") ||
+      pathName.startsWith("/become-provider")
     ) {
       return NextResponse.redirect(new URL("/dashboard-admin", request.url));
     }
@@ -34,9 +41,10 @@ export async function proxy(request: NextRequest) {
   if (userRole === Roles.provider) {
     if (
       pathName.startsWith("/dashboard-admin") ||
-      pathName.startsWith("/my-orders")||
-      pathName.startsWith("/cart")||
-      pathName.startsWith("/checkout")
+      pathName.startsWith("/my-orders") ||
+      pathName.startsWith("/cart") ||
+      pathName.startsWith("/checkout") ||
+      pathName.startsWith("/become-provider")
     ) {
       return NextResponse.redirect(new URL("/dashboard-provider", request.url));
     }
@@ -50,6 +58,7 @@ export async function proxy(request: NextRequest) {
     ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
+
   }
 
   return NextResponse.next();
@@ -67,5 +76,6 @@ export const config = {
     "/orders/:path*",
     "/my-orders",
     "/my-orders/:path*",
+    "/become-provider"
   ],
 };

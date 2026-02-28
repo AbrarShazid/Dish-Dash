@@ -6,14 +6,6 @@ interface Meals {
   price: string;
 }
 
-const statusColors: Record<string, string> = {
-  PREPARING: "bg-blue-100 text-blue-800",
-  READY: "bg-purple-100 text-purple-800",
-  DELIVERED: "bg-green-100 text-green-800",
-  CANCELLED: "bg-red-100 text-red-800",
-  PLACED: "bg-yellow-100 text-yellow-800",
-};
-
 export default async function OrderDetails({
   params,
 }: {
@@ -35,9 +27,7 @@ export default async function OrderDetails({
         <h1 className="text-2xl font-bold">Order #{data.orderId}</h1>
 
         <span
-          className={`inline-block mt-2 px-4 py-1 rounded-full text-sm font-medium ${
-            statusColors[data.orderStatus]
-          }`}
+          className={`inline-block mt-2 px-4 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800`}
         >
           {data.orderStatus}
         </span>

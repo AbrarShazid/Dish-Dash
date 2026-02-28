@@ -18,7 +18,7 @@ import {
   Package,
 } from "lucide-react";
 import Link from "next/link";
-
+import { orderStatus } from "@/constants/orderStatus";
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -69,11 +69,11 @@ export default async function AllOrders() {
   }
 
   const statusOrder = [
-    "PLACED",
-    "PREPARING",
-    "READY",
-    "DELIVERED",
-    "CANCELLED",
+    orderStatus.placed,
+    orderStatus.preparing,
+    orderStatus.ready,
+    orderStatus.delivered,
+    orderStatus.cancelled,
   ];
 
   return (
@@ -93,7 +93,9 @@ export default async function AllOrders() {
       {/* Status Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {statusOrder.map((status) => {
-            const count = data.filter((order: any) => order.orderStatus === status).length;
+          const count = data.filter(
+            (order: any) => order.orderStatus === status,
+          ).length;
           return (
             <Card
               key={status}
