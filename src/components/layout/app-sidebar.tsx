@@ -22,22 +22,22 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard-admin",
       icon: LayoutDashboard,
     },
     {
       title: "All Orders",
-      url: "#",
+      url: "/dashboard-admin/all-orders",
       icon: ListOrdered,
     },
     {
       title: "All User",
-      url: "#",
+      url: "/dashboard-admin/all-user",
       icon: User2,
     },
     {
       title: "Manage Category",
-      url: "#",
+      url: "/dashboard-admin/manage-category",
       icon: TagsIcon,
     },
     {
@@ -50,15 +50,15 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+    <Sidebar   collapsible="offcanvas" {...props}>
+      <SidebarHeader className="bg-white dark:bg-gray-900 ">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
+              className="data-[slot=sidebar-menu-button]:p-1.5! "
             >
-              <Link href="/"className="text-xl font-semibold">
+              <Link href="/"className="text-xl font-semibold hover:bg-orange-50   hover:dark:bg-gray-800">
                
                 DishDash
               </Link>
@@ -66,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-white dark:bg-gray-900 rounded-sm border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all ">
         <NavMain items={data.navMain} />
       </SidebarContent>
     </Sidebar>
