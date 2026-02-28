@@ -102,7 +102,7 @@ export default async function ProviderOrder() {
             {/* Single button to go to order details page for status update */}
             <Link
               href={`/orders/${order.orderId}`}
-              className="inline-block w-full mt-4 px-4 py-2 bg-black text-white text-sm font-medium rounded-lg text-center hover:bg-gray-800 transition"
+              className="inline-block  px-4 py-2  text-sm font-medium rounded-lg text-center  transition                w-full mt-4 bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-black text-white"
             >
               Update Status →
             </Link>

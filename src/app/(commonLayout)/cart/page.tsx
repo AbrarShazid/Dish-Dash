@@ -39,7 +39,7 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 rounded-xl">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-12 border">
             <ShoppingBag className="w-16 h-16 mx-auto text-gray-400 mb-4" />
