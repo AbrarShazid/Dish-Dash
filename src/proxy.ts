@@ -23,7 +23,9 @@ export async function proxy(request: NextRequest) {
     if (
       pathName.startsWith("/dashboard-provider") ||
       pathName.startsWith("/my-orders") ||
-      pathName.startsWith("/orders")
+      pathName.startsWith("/orders") ||
+      pathName.startsWith("/cart")||
+      pathName.startsWith("/checkout")
     ) {
       return NextResponse.redirect(new URL("/dashboard-admin", request.url));
     }
@@ -32,7 +34,9 @@ export async function proxy(request: NextRequest) {
   if (userRole === Roles.provider) {
     if (
       pathName.startsWith("/dashboard-admin") ||
-      pathName.startsWith("/my-orders")
+      pathName.startsWith("/my-orders")||
+      pathName.startsWith("/cart")||
+      pathName.startsWith("/checkout")
     ) {
       return NextResponse.redirect(new URL("/dashboard-provider", request.url));
     }
@@ -53,6 +57,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/cart",
+    "/checkout",
     "/dashboard-provider",
     "/dashboard-provider/:path*",
     "/dashboard-admin",
