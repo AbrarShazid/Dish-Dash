@@ -20,7 +20,7 @@ export default function LayoutAdminDash({
     >
       <AppSidebar variant="inset"  className=""/>
       <SidebarInset  className="bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
-        <SiteHeader />
+        <SiteHeader  />
         {children}
       </SidebarInset>
     </SidebarProvider>

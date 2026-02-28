@@ -32,6 +32,40 @@ export const orderService = {
     }
   },
 
+//get all order for admin 
+
+getAllOrder:async function (){
+
+  try {
+
+    const cookieStore=await cookies()
+    const res=await fetch(`${BACKEND_URL}/order/all-order`,{
+      headers:{
+        cookie:cookieStore.toString()
+      }
+      ,
+      cache:"no-store"
+    })
+
+    const allOrder=await res.json()
+
+    if(allOrder.success===true){
+      return {data:allOrder.data,error:null}
+    }
+     return {
+        data: null,
+        error: {
+          message: allOrder.message || "Failed to fetch order details!",
+        },
+      };
+
+    
+  } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+},
+
+
   getMyOrder: async function () {
     try {
       const cookieStore = await cookies();
