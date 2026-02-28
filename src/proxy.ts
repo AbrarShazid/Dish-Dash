@@ -21,28 +21,28 @@ export async function proxy(request: NextRequest) {
 
   if (userRole === Roles.admin) {
     if (
-      pathName.startsWith("/dashboard") ||
+      pathName.startsWith("/dashboard-provider") ||
       pathName.startsWith("/my-orders") ||
       pathName.startsWith("/orders")
     ) {
-      return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+      return NextResponse.redirect(new URL("/dashboard-admin", request.url));
     }
   }
 
   if (userRole === Roles.provider) {
     if (
-      pathName.startsWith("/admin-dashboard") ||
+      pathName.startsWith("/dashboard-admin") ||
       pathName.startsWith("/my-orders")
     ) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/dashboard-provider", request.url));
     }
   }
 
   if (userRole === Roles.customer) {
     if (
-      pathName.startsWith("/dashboard") ||
+      pathName.startsWith("/dashboard-provider") ||
       pathName.startsWith("/orders") ||
-      pathName.startsWith("/admin-dashboard")
+      pathName.startsWith("/dashboard-admin")
     ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
@@ -53,10 +53,10 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard",
-    "/dashboard/:path*",
-    "/admin-dashboard",
-    "/admin-dashboard/:path*",
+    "/dashboard-provider",
+    "/dashboard-provider/:path*",
+    "/dashboard-admin",
+    "/dashboard-admin/:path*",
     "/orders",
     "/orders/:path*",
     "/my-orders",

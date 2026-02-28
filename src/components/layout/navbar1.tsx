@@ -126,14 +126,14 @@ const Navbar = ({
           { title: "Meals", url: "/meals" },
           { title: "Providers", url: "/providers" },
           { title: "Orders", url: "/orders" },
-          { title: "Dashboard", url: "/dashboard" },
+          { title: "Dashboard", url: "/dashboard-provider" },
         ];
       case Roles.admin:
         return [
           { title: "Home", url: "/" },
           { title: "Meals", url: "/meals" },
           { title: "Providers", url: "/providers" },
-          { title: "Dashboard", url: "/dashboard" },
+          { title: "Dashboard", url: "/dashboard-admin" },
         ];
       case Roles.customer:
       default:
@@ -160,10 +160,10 @@ const Navbar = ({
       .slice(0, 2);
   };
 
-  // Check if cart should be shown
+  
   const showCart = () => {
-    if (!user) return true; // Show for logged out users
-    return user.role === Roles.customer; // Show only for customers
+    if (!user) return true; 
+    return user.role === Roles.customer; 
   };
 
   return (
@@ -184,7 +184,7 @@ const Navbar = ({
             href={logo.url}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <span className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
               {logo.title}
             </span>
           </Link>
@@ -226,7 +226,7 @@ const Navbar = ({
                   >
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={user.image || ""} alt={user.name} />
-                      <AvatarFallback className="bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+                      <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                         {getUserInitials()}
                       </AvatarFallback>
                     </Avatar>
@@ -284,7 +284,7 @@ const Navbar = ({
                 <Button
                   asChild
                   size="sm"
-                  className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white shadow-md hover:shadow-lg transition-all"
+                  className="bg-linear-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white shadow-md hover:shadow-lg transition-all"
                 >
                   <Link href={auth.signup.url}>{auth.signup.title}</Link>
                 </Button>
@@ -301,7 +301,7 @@ const Navbar = ({
               href={logo.url}
               className="flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
-              <span className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                 {logo.title}
               </span>
             </Link>
@@ -330,7 +330,7 @@ const Navbar = ({
                   </Button>
                 </SheetTrigger>
 
-                <SheetContent className="w-full sm:w-[400px] p-0">
+                <SheetContent className="w-full sm:w-100 p-0">
                   <SheetHeader className="p-6 border-b">
                     <SheetTitle>
                       <Link
@@ -338,7 +338,7 @@ const Navbar = ({
                         className="flex items-center gap-2"
                         onClick={() => setIsOpen(false)}
                       >
-                        <span className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                        <span className="text-xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                           {logo.title}
                         </span>
                       </Link>
@@ -351,7 +351,7 @@ const Navbar = ({
                       <div className="flex items-center gap-3 mb-6 pb-6 border-b">
                         <Avatar className="h-12 w-12">
                           <AvatarImage src={user.image || ""} alt={user.name} />
-                          <AvatarFallback className="bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+                          <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                             {getUserInitials()}
                           </AvatarFallback>
                         </Avatar>
@@ -423,7 +423,7 @@ const Navbar = ({
                         </Button>
                         <Button
                           asChild
-                          className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white"
+                          className="w-full bg-linear-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white"
                           onClick={() => setIsOpen(false)}
                         >
                           <Link href={auth.signup.url}>
@@ -449,7 +449,7 @@ const renderMenuItem = (item: MenuItem) => {
       <NavigationMenuLink asChild>
         <Link
           href={item.url}
-          className="relative inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-amber-600 dark:hover:text-amber-400 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-amber-600 after:to-orange-600 hover:after:w-full after:transition-all after:duration-300"
+          className="relative inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-amber-600 dark:hover:text-amber-400 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-linear-to-r after:from-amber-600 after:to-orange-600 hover:after:w-full after:transition-all after:duration-300"
         >
           {item.title}
         </Link>
