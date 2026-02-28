@@ -54,7 +54,7 @@ const Footer = ({ className }: FooterProps) => {
           {/* Brand and Newsletter */}
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block mb-4">
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                DishDash
               </h2>
             </Link>

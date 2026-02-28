@@ -1,4 +1,3 @@
-// components/dashboard/admin/UserStatusToggle.tsx
 "use client";
 
 import { useState } from "react";
