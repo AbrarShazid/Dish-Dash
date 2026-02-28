@@ -1,28 +1,11 @@
 import { orderService } from "@/services/order.service";
 
-import { orderStatus } from "@/constants/orderStatus";
-
 interface Meals {
   mealName: string;
   quantity: number;
   price: string;
 }
 
-interface OrderPayload {
-  orderId: string;
-  orderStatus: string;
-  orderAmount: string;
-  orderDeliveryAddress: string;
-  createdAt: Date;
-  updatedAt: Date;
-  restaurantName: string;
-  customerName: string;
-  items: Meals[] | null;
-}
-
-interface Props {
-  order: OrderPayload;
-}
 const statusColors: Record<string, string> = {
   PREPARING: "bg-blue-100 text-blue-800",
   READY: "bg-purple-100 text-purple-800",
@@ -98,13 +81,10 @@ export default async function OrderDetails({
         ))}
       </div>
 
-      {/* Show message when order is in final state */}
-      {(data.orderStatus === orderStatus.delivered ||
-        data.orderStatus === orderStatus.cancelled) && (
-        <div className="bg-gray-50 border rounded-xl p-5 text-center text-gray-600">
-          This order is {data.orderStatus.toLowerCase()} and cannot be modified.
-        </div>
-      )}
+      <div className="bg-gray-50 border rounded-xl p-5 text-center text-gray-600">
+        This order is {data.orderStatus.toLowerCase()} and cannot be modified by
+        admin.
+      </div>
     </div>
   );
 }

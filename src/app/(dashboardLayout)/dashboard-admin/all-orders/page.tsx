@@ -36,7 +36,7 @@ export default async function AllOrders() {
   if (error) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <Card className="w-full max-w-md p-6 text-center">
+        <Card className="w-full max-w-md p-6 text-center bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
           <div className="text-6xl mb-4">😕</div>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Something went wrong
@@ -68,15 +68,6 @@ export default async function AllOrders() {
     );
   }
 
-  // Group orders by status for better organization
-  const groupedOrders = data.reduce((acc: any, order: any) => {
-    if (!acc[order.orderStatus]) {
-      acc[order.orderStatus] = [];
-    }
-    acc[order.orderStatus].push(order);
-    return acc;
-  }, {});
-
   const statusOrder = [
     "PLACED",
     "PREPARING",
@@ -102,7 +93,7 @@ export default async function AllOrders() {
       {/* Status Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {statusOrder.map((status) => {
-          const count = groupedOrders[status]?.length || 0;
+            const count = data.filter((order: any) => order.orderStatus === status).length;
           return (
             <Card
               key={status}

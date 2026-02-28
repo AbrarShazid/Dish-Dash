@@ -13,13 +13,21 @@ import Link from "next/link";
 export async function SectionCardAdminDash() {
   const { data, error } = await analyticsService.getAdminAnalytics();
 
-  if (error) {
+if (error) {
     return (
-      <div className="text-center">
-        <p>Something went wrong! Try again later</p>
-        <Link href={"/"}>
-          <Button>Go Home</Button>
-        </Link>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Card className="w-full max-w-md p-6 text-center bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
+          <div className="text-6xl mb-4">😕</div>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Something went wrong
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">
+            {error.message}
+          </p>
+          <Button asChild>
+            <Link href="/dashboard/admin">Go Back</Link>
+          </Button>
+        </Card>
       </div>
     );
   }

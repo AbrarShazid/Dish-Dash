@@ -41,7 +41,7 @@ getAllOrder:async function (){
     const cookieStore=await cookies()
     const res=await fetch(`${BACKEND_URL}/order/all-order`,{
       headers:{
-        cookie:cookieStore.toString()
+        Cookie:cookieStore.toString()
       }
       ,
       cache:"no-store"

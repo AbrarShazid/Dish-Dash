@@ -79,4 +79,57 @@ export const userService = {
       };
     }
   },
+
+  getAlluser: async () => {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/user`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const allUser = await res.json();
+
+      if (allUser.success === true) {
+        return { data: allUser.data, error: null };
+      }
+      return {
+        data: null,
+        error: { message: allUser.message || "User not available!" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+
+  updateUserStatus: async function (userId: string, status: string) {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/user/${userId}/status`, {
+        method: "PATCH",
+        body: JSON.stringify({ status }),
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const statusUpdate = await res.json();
+
+      if (statusUpdate.success === true) {
+        return { data: statusUpdate.data, error: null };
+      }
+      return {
+        data: null,
+        error: { message: statusUpdate.message || "Status not changed!" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
 };

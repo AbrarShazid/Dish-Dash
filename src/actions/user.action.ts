@@ -16,3 +16,17 @@ export const updateProfile = async (payload: UpdateProfilePayload) => {
     return { error: { message: err.message || "Something went wrong!" } };
   }
 };
+
+export async function updateUserStatus(userId: string, status: string) {
+  try {
+    const { data, error } = await userService.updateUserStatus(userId, status);
+
+    if (error) {
+      return { error };
+    }
+
+    return { data };
+  } catch (err: any) {
+    return { error: { message: "Failed to update user status" } };
+  }
+}
