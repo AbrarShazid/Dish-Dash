@@ -47,7 +47,7 @@ export default async function AllUser() {
             {error.message}
           </p>
           <Button asChild>
-            <Link href="/dashboard/admin">Go Back</Link>
+            <Link href="/">Go Back</Link>
           </Button>
         </Card>
       </div>

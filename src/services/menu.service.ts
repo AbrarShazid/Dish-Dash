@@ -1,11 +1,12 @@
 import { env } from "@/env";
+import { cookies } from "next/headers";
 
 interface GetAllMenuItemParams {
   page?: number;
   limit?: number;
   skip?: number;
   sortBy?: string;
-  sortOrder?: string
+  sortOrder?: string;
   search?: string;
   categoryId?: string;
   minPrice?: number;
@@ -17,14 +18,14 @@ interface FetchOptions {
   revalidate?: number;
 }
 
-const API_URL = env.BACKEND_URL;
+const BACKEND_URL = env.BACKEND_URL;
 export const menuService = {
   getAllMenuItem: async function (
     params?: GetAllMenuItemParams,
     options?: FetchOptions,
   ) {
     try {
-      const url = new URL(`${API_URL}/menu`);
+      const url = new URL(`${BACKEND_URL}/menu`);
 
       if (params) {
         Object.entries(params).forEach(([key, value]) => {
@@ -62,8 +63,8 @@ export const menuService = {
 
   getMenuById: async function (id: string) {
     try {
-      const res = await fetch(`${API_URL}/menu/${id}`,{
-        cache:"no-store"
+      const res = await fetch(`${BACKEND_URL}/menu/${id}`, {
+        cache: "no-store",
       });
       const menuItem = await res.json();
 
@@ -73,6 +74,31 @@ export const menuService = {
       return {
         data: null,
         error: { message: menuItem.message || "Failed to fetch menu item!" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+  //provider menu by his id
+  getRestaurantMenu: async function () {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/menu/provider`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+      const menuItems = await res.json();
+
+      if (menuItems.success === true) {
+        return { data: menuItems.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: { message: menuItems.message || "Failed to fetch menu items!" },
       };
     } catch (error) {
       return { data: null, error: { message: "Something went wrong!" } };
