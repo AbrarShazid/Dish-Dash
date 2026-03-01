@@ -104,4 +104,106 @@ export const menuService = {
       return { data: null, error: { message: "Something went wrong!" } };
     }
   },
+
+  createMenuItem: async function (data: {
+    name: string;
+    description?: string;
+    price: number;
+    categoryId: string;
+    imageUrl?: string | null;
+  }) {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/menu/add-item`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(data),
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success === true) {
+        return { data: result.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: { message: result.message || "Failed to create menu item" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+
+  updateMenuItem: async function (
+    itemId: string,
+    data: {
+      name?: string;
+      description?: string | null;
+      price?: number;
+      categoryId?: string;
+      imageUrl?: string | null;
+      isAvailable?: boolean;
+    },
+  ) {
+    try {
+      const cookieStore = await cookies();
+      console.log("Sending to backend:", data);
+
+      const res = await fetch(`${BACKEND_URL}/menu/update/${itemId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(data),
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success === true) {
+        return { data: result.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: { message: result.message || "Failed to update menu item" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+
+  deleteMenuItem: async function (itemId: string) {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/menu/delete/${itemId}`, {
+        method: "PATCH",
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success === true) {
+        return { data: result.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: { message: result.message || "Failed to delete menu item" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
 };

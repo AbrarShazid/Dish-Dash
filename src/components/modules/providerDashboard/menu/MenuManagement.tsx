@@ -1,12 +1,14 @@
 // components/modules/provider/menu/MenuManagement.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { MenuTable } from "./MenuTable";
 import { MenuCards } from "./MenuCards";
 import { AddEditItemModal } from "./AddEditItemModal";
+import { createMenuItem, updateMenuItem } from "@/actions/menu.action";
+import { toast } from "sonner";
 
 interface Data {
   id: string;
@@ -47,41 +49,41 @@ export function MenuManagement({
     setIsModalOpen(true);
   };
 
-  const handleToggleAvailability = (itemId: string) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === itemId ? { ...item, isAvailable: !item.isAvailable } : item,
-      ),
-    );
-  };
-
-  const handleSoftDelete = (itemId: string) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === itemId ? { ...item, isDeleted: true } : item,
-      ),
-    );
-  };
-
-  const handleSave = (itemData: any) => {
-    if (editingItem) {
-      // Edit existing
-      setItems((prev) =>
-        prev.map((item) =>
-          item.id === editingItem.id ? { ...item, ...itemData } : item,
-        ),
-      );
-    } else {
-      // Add new
-      const newItem = {
-        id: Date.now().toString(),
-        ...itemData,
-        isDeleted: false,
-        createdAt: new Date().toISOString(),
-      };
-      setItems((prev) => [newItem, ...prev]);
+  const handleSave = async (itemData: any) => {
+    try {
+      if (editingItem) {
+        // Edit existing
+        const { error } = await updateMenuItem(editingItem.id, itemData);
+        if (error) {
+          toast.error(error.message);
+          return;
+        }
+        setItems((prev) =>
+          prev.map((item) =>
+            item.id === editingItem.id ? { ...item, ...itemData } : item,
+          ),
+        );
+        toast.success("Item updated successfully");
+      } else {
+        // Add new
+        const { error } = await createMenuItem(itemData);
+        if (error) {
+          toast.error(error.message);
+          return;
+        }
+        const newItem = {
+          id: Date.now().toString(),
+          ...itemData,
+          isDeleted: false,
+          createdAt: new Date().toISOString(),
+        };
+        setItems((prev) => [newItem, ...prev]);
+        toast.success("Item added successfully");
+      }
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Something went wrong");
     }
-    setIsModalOpen(false);
   };
 
   return (
@@ -102,27 +104,23 @@ export function MenuManagement({
         </Button>
       </div>
 
-      {/* Active Items Section */}
+      {/* Items Section */}
       {items.length > 0 ? (
         <>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            All {items.length} items
-          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {items.length} items
+          </p>
 
           <MenuTable
             items={items}
             categories={categoryData}
             onEdit={handleEdit}
-            onToggleAvailability={handleToggleAvailability}
-            onDelete={handleSoftDelete}
           />
 
           <MenuCards
             items={items}
             categories={categoryData}
             onEdit={handleEdit}
-            onToggleAvailability={handleToggleAvailability}
-            onDelete={handleSoftDelete}
           />
         </>
       ) : (

@@ -1,7 +1,7 @@
 "use client";
 import { useCart } from "@/context/cartContext";
 import { ShoppingCart, Store } from "lucide-react";
-import Image from "next/image";
+
 import Link from "next/link";
 
 export default function MenuItemCard({ item }: { item: any }) {
@@ -23,10 +23,9 @@ export default function MenuItemCard({ item }: { item: any }) {
       {/* Image placeholder */}
       <div className="aspect-square bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg mb-3 flex items-center justify-center">
         {item.imageUrl ? (
-          <Image
+          <img
             src={item.imageUrl}
             alt={item.name}
-            quality={50}
             className="w-full h-full object-cover rounded-lg"
           />
         ) : (

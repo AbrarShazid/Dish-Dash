@@ -3,3 +3,11 @@ import MenuManagementServer from "@/components/modules/providerDashboard/menu/Me
 export default function ManageMenuPage() {
   return <MenuManagementServer />;
 }
+
+
+
+
+
+
+
+
