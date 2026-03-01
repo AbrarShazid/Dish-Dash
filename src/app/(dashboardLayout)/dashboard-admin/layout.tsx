@@ -18,7 +18,7 @@ export default function LayoutAdminDash({
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset"  className=""/>
+      <AppSidebar variant="inset" />
       <SidebarInset  className="bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
         <SiteHeader  />
         {children}

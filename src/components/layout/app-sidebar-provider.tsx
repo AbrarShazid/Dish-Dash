@@ -10,24 +10,35 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { Hotel, LayoutDashboard, Menu } from "lucide-react";
+import { Home, Hotel, LayoutDashboard, ListOrdered, Menu } from "lucide-react";
 
 const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard-provider",
       icon: LayoutDashboard,
     },
     {
-      title: "Manage Menu",
-      url: "#",
+      title: "Orders",
+      url: "/orders",
+      icon: ListOrdered ,
+    },
+    {
+      title: "Menu Management",
+      url: "/dashboard-provider/manage-menu",
       icon: Menu,
     },
     {
       title: "Manage Restaurant",
-      url: "#",
+      url: "/dashboard-provider/manage-restaurant",
       icon: Hotel,
+    },
+
+     {
+      title: "Home",
+      url: "/",
+      icon: Home,
     },
   ],
 };
@@ -37,21 +48,21 @@ export function AppSidebarProvider({
 }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="bg-white dark:bg-gray-900 ">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link href="/" className="text-xl font-semibold">
+              <Link href="/" className="text-xl font-semibold hover:bg-orange-50   hover:dark:bg-gray-800">
                 DishDash
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-white dark:bg-gray-900 rounded-sm border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all ">
         <NavMain items={data.navMain} />
       </SidebarContent>
     </Sidebar>

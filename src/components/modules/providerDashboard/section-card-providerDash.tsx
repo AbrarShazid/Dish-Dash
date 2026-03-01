@@ -1,17 +1,17 @@
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { analyticsService } from "@/services/analytics.service";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
-export async function SectionCardAdminDash() {
-  const { data, error } = await analyticsService.getAdminAnalytics();
+export async function SectionCardProviderDash() {
+  const { data, error } = await analyticsService.getProviderAnalytics();
 
   if (error) {
     return (
@@ -34,92 +34,63 @@ export async function SectionCardAdminDash() {
 
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      {/* TOTAL USER */}
-      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
-        <CardHeader>
-          <CardDescription>Total Users</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data.totalUser}
-          </CardTitle>
-          <CardAction />
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="flex gap-2 font-medium">Platform users</div>
-          <div className="text-muted-foreground">
-            All-time registered accounts
-          </div>
-        </CardFooter>
-      </Card>
-
-      {/* TOTAL RESTAURANT */}
-      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
-        <CardHeader>
-          <CardDescription>Total Restaurants</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data.totalRestaurant}
-          </CardTitle>
-          <CardAction />
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="flex gap-2 font-medium">Onboarded food providers</div>
-          <div className="text-muted-foreground">
-            Restaurants registered in the system
-          </div>
-        </CardFooter>
-      </Card>
-
-      {/* TOTAL ITEMS */}
-      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
-        <CardHeader>
-          <CardDescription>Total Menu Items</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data.totalItem}
-          </CardTitle>
-          <CardAction />
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="flex gap-2 font-medium">Meals listed on platform</div>
-          <div className="text-muted-foreground">
-            Available items across all restaurants
-          </div>
-        </CardFooter>
-      </Card>
-
-      {/* TOTAL ORDERS */}
       <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
         <CardHeader>
           <CardDescription>Total Orders</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {data.totalOrders}
           </CardTitle>
-          <CardAction />
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="flex gap-2 font-medium">
-            Orders placed successfully
-          </div>
-          <div className="text-muted-foreground">
-            Completed and processing orders combined
-          </div>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm font-medium">
+          All time orders
         </CardFooter>
       </Card>
 
-      {/* TOTAL REVENUE */}
-      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 rounded-xl">
+      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            ${data.totalRevenue}
+            ${Number(data.totalRevenue).toFixed(2)}
           </CardTitle>
-          <CardAction />
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="flex gap-2 font-medium">
-            Revenue generated from orders
-          </div>
-          <div className="text-muted-foreground">
-            Gross earnings across all restaurants
-          </div>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm font-medium">
+          From delivered orders
+        </CardFooter>
+      </Card>
+
+      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
+        <CardHeader>
+          <CardDescription>Menu Items</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {data.totalMenuItems}
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm font-medium">
+          Active items
+        </CardFooter>
+      </Card>
+
+      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
+        <CardHeader>
+          <CardDescription>Average Rating</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {Number(data.averageRating).toFixed(1)} ★
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm font-medium">
+          Based on customer reviews
+        </CardFooter>
+      </Card>
+
+      <Card className="@container/card bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
+        <CardHeader>
+          <CardDescription>Customers Served</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {data.totalCustomersServed}
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm font-medium">
+          Unique customers
         </CardFooter>
       </Card>
     </div>

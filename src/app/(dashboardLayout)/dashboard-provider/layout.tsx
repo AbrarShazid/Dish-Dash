@@ -9,7 +9,7 @@ export default function LayoutProviderDash({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider
+    <SidebarProvider className="bg-white dark:bg-gray-900  border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all"
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 72)",
@@ -18,7 +18,7 @@ export default function LayoutProviderDash({
       }
     >
       <AppSidebarProvider variant="inset" />
-      <SidebarInset>
+      <SidebarInset className="bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
         <SiteHeader />
         {children}
       </SidebarInset>

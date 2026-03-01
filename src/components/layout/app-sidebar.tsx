@@ -58,7 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5! "
             >
-              <Link href="/"className="text-xl font-semibold hover:bg-orange-50   hover:dark:bg-gray-800">
+              <Link href="/" className="text-xl font-semibold hover:bg-orange-50   hover:dark:bg-gray-800">
                
                 DishDash
               </Link>

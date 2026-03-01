@@ -34,8 +34,8 @@ export default async function ProviderOrder() {
 
   if (!data || data.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto p-6">
-        <div className="text-center py-12 bg-gray-50 rounded-xl">
+      <div className="max-w-5xl mx-auto p-6 ">
+        <div className="text-center py-12 bg-gray-50 dark:bg-gray-950 rounded-xl">
           <p className="text-gray-500 text-lg">No orders found</p>
           <p className="text-gray-400 text-sm mt-2">
             When customers place orders, they will appear here
@@ -46,7 +46,7 @@ export default async function ProviderOrder() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6">
+    <div className="max-w-5xl mx-auto p-6 space-y-6 ">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Orders</h1>
         <div className="text-sm text-gray-500 dark:text-gray-200">
