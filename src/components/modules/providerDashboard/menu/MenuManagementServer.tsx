@@ -2,8 +2,9 @@ import { menuService } from "@/services/menu.service";
 import { MenuManagement } from "./MenuManagement";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link, MenuSquare } from "lucide-react";
+import {  MenuSquare } from "lucide-react";
 import { categoryService } from "@/services/category.service";
+import Link from "next/link";
 
 export default async function MenuManagementServer() {
   const { data, error } = await menuService.getRestaurantMenu();
@@ -75,6 +76,7 @@ export default async function MenuManagementServer() {
       </div>
     );
   }
+
 
   return (
     <MenuManagement

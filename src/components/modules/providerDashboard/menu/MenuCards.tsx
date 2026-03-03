@@ -21,19 +21,23 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Edit, MoreVertical, Trash2, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
-import { updateMenuItem, deleteMenuItem } from "@/actions/menu.action";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface MenuCardsProps {
   items: any[];
   categories: any[];
   onEdit: (item: any) => void;
+  onDelete: (itemId: string) => Promise<void>;
+  onToggleAvailability: (itemId: string, currentStatus: boolean) => Promise<void>;
 }
 
-export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
-  const router = useRouter();
+export function MenuCards({ 
+  items, 
+  categories, 
+  onEdit, 
+  onDelete,
+  onToggleAvailability 
+}: MenuCardsProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -44,19 +48,7 @@ export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
   const handleToggleAvailability = async (item: any) => {
     setLoadingId(item.id);
     try {
-      const formData = new FormData();
-      formData.append("isAvailable", (!item.isAvailable).toString());
-
-      const { error } = await updateMenuItem(item.id, formData);
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success(`Item ${item.isAvailable ? "unavailable" : "available"}`);
-        router.refresh();
-      }
-    } catch (error) {
-      toast.error("Failed to update availability");
+      await onToggleAvailability(item.id, item.isAvailable);
     } finally {
       setLoadingId(null);
     }
@@ -67,16 +59,7 @@ export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
 
     setLoadingId(deleteId);
     try {
-      const { error } = await deleteMenuItem(deleteId);
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success("Item deleted successfully");
-        router.refresh();
-      }
-    } catch (error) {
-      toast.error("Failed to delete item");
+      await onDelete(deleteId);
     } finally {
       setLoadingId(null);
       setDeleteId(null);
@@ -100,9 +83,12 @@ export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
                   {getCategoryName(item.categoryId)}
                 </p>
               </div>
-              <div className="flex items-center gap-2 ">
-                <DropdownMenu >
-                  <DropdownMenuTrigger asChild className="hover:bg-gray-100 dark:hover:bg-gray-900">
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    asChild
+                    className="hover:bg-gray-100 dark:hover:bg-gray-900"
+                  >
                     <Button
                       variant="ghost"
                       size="sm"
@@ -111,7 +97,10 @@ export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
                       <MoreVertical className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="bg-gray-50 dark:bg-gray-800  ">
+                  <DropdownMenuContent
+                    align="end"
+                    className="bg-gray-50 dark:bg-gray-800"
+                  >
                     <DropdownMenuItem onClick={() => onEdit(item)}>
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
@@ -163,7 +152,7 @@ export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
             <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-100 dark:border-gray-800">
               <div>
                 <span className="text-lg font-bold text-gray-900 dark:text-white">
-                  ${item.price.toFixed(2)}
+                  ${Number(item.price).toFixed(2)}
                 </span>
               </div>
               <div>
@@ -187,7 +176,7 @@ export function MenuCards({ items, categories, onEdit }: MenuCardsProps) {
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-gray-50 dark:bg-gray-800">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Menu Item</AlertDialogTitle>
             <AlertDialogDescription>

@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { updateProfile } from "@/actions/user.action";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { env } from "@/env";
+
+const CLOUD_NAME = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -50,20 +54,36 @@ export default function UpdateProfileForm({
             throw new Error("Image size must be less than 5MB");
           }
 
-          const data = new FormData();
-          data.append("image", value.image);
+          const formData = new FormData();
+          formData.append("file", value.image);
+
+          formData.append("upload_preset", UPLOAD_PRESET);
 
           const res = await fetch(
-            "https://api.imgbb.com/1/upload?key=27aac98f57c76c0d2ed161e4f0ccff7b",
-            { method: "POST", body: data },
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            {
+              method: "POST",
+              body: formData,
+            },
           );
-
-          const result = await res.json();
-          if (!result.success) {
-            throw new Error(result.error?.message || "ImgBB upload failed");
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(
+              errorData.error?.message || `Upload failed: ${res.statusText}`,
+            );
           }
 
-          imageUrl = result.data.url;
+          const result = await res.json();
+          if (!result.secure_url) {
+            throw new Error("Upload failed - no URL returned");
+          }
+
+          const optimizedUrl = result.secure_url.replace(
+            "/upload/",
+            "/upload/f_auto,q_auto/",
+          );
+
+          imageUrl = optimizedUrl;
         }
 
         const payload = { name: value.name, image: imageUrl };

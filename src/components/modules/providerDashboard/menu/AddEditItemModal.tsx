@@ -26,9 +26,13 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { env } from "@/env";
+
+const CLOUD_NAME = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const menuItemSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -94,22 +98,43 @@ export function AddEditItemModal({
 
     try {
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("file", file);
+      formData.append("upload_preset", UPLOAD_PRESET);
 
       const res = await fetch(
-        "https://api.imgbb.com/1/upload?key=27aac98f57c76c0d2ed161e4f0ccff7b",
-        { method: "POST", body: formData },
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        },
       );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          errorData.error?.message || `Upload failed: ${res.statusText}`,
+        );
+      }
 
       const result = await res.json();
 
-      if (!result.success) {
-        throw new Error(result.error?.message || "Image upload failed");
+      if (!result.secure_url) {
+        throw new Error("Upload failed - no URL returned");
       }
 
-      form.setFieldValue("imageUrl", result.data.url);
+      // Optimize the URL
+      const optimizedUrl = result.secure_url.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto/",
+      );
+
+      form.setFieldValue("imageUrl", optimizedUrl);
       toast.success("Image uploaded successfully", { id: toastId });
+
+      // Clear the file input
+      e.target.value = "";
     } catch (error: any) {
+      console.error("Upload error:", error);
       toast.error(error.message || "Failed to upload image", { id: toastId });
     } finally {
       setIsUploading(false);
@@ -192,7 +217,7 @@ export function AddEditItemModal({
                         <Input
                           id={field.name}
                           type="number"
-                          step="1"
+                          step="0.01" // Changed from "1" to "0.01" for decimal prices
                           min="0"
                           value={field.state.value}
                           onChange={(e) =>
@@ -207,7 +232,6 @@ export function AddEditItemModal({
                     );
                   }}
                 />
-
                 <form.Field
                   name="categoryId"
                   children={(field) => {
@@ -223,9 +247,9 @@ export function AddEditItemModal({
                           <SelectTrigger>
                             <SelectValue placeholder="Select category" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="bg-gray-50 dark:bg-gray-800 ">
                             {categories.map((cat) => (
-                              <SelectItem key={cat.id} value={cat.id}>
+                              <SelectItem  key={cat.id} value={cat.id}>
                                 {cat.name}
                               </SelectItem>
                             ))}
@@ -257,16 +281,15 @@ export function AddEditItemModal({
                   Max file size: 5MB. Supported formats: JPG, PNG, GIF
                 </p>
 
-                {/* Show image URL after upload */}
+                {/* Show upload status */}
                 <form.Field
                   name="imageUrl"
                   children={(field) => (
                     <>
                       {field.state.value && (
                         <div className="mt-2">
-                          <p className="text-xs text-green-600 dark:text-green-400 break-all">
+                          <p className="text-xs text-green-600 dark:text-green-400">
                             ✓ Image uploaded successfully
-                        
                           </p>
                         </div>
                       )}

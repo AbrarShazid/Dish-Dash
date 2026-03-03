@@ -198,7 +198,7 @@ const Navbar = ({
             </NavigationMenu>
           </div>
 
-          {/* Right side - Cart, Theme Toggle, and User Menu/Auth */}
+          {/* Right side - Cart, Theme Toggle, and User  */}
           <div className="flex items-center gap-3">
             {/* Cart Icon - Show for customers and logged out users */}
             {showCart() && (
@@ -217,7 +217,7 @@ const Navbar = ({
             <ThemeToggle />
 
             {user ? (
-              // User is logged in - show avatar with dropdown
+              // User is logged in -
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

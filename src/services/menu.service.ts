@@ -105,7 +105,7 @@ export const menuService = {
     }
   },
 
-  createMenuItem: async function (data: {
+  createMenuItem: async function (payload: {
     name: string;
     description?: string;
     price: number;
@@ -121,7 +121,7 @@ export const menuService = {
           "Content-Type": "application/json",
           Cookie: cookieStore.toString(),
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
         cache: "no-store",
       });
 

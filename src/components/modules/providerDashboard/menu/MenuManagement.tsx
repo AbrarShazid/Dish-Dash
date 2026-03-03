@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 import { MenuTable } from "./MenuTable";
 import { MenuCards } from "./MenuCards";
 import { AddEditItemModal } from "./AddEditItemModal";
-import { createMenuItem, updateMenuItem } from "@/actions/menu.action";
+import { createMenuItem, updateMenuItem, deleteMenuItem } from "@/actions/menu.action";
 import { toast } from "sonner";
 
 interface Data {
@@ -22,6 +22,7 @@ interface Data {
   isDeleted: boolean;
   createdAt: Date;
 }
+
 interface categoryData {
   id: string;
   name: string;
@@ -49,11 +50,52 @@ export function MenuManagement({
     setIsModalOpen(true);
   };
 
+  const handleDelete = async (itemId: string) => {
+    try {
+      const { error } = await deleteMenuItem(itemId);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      
+      // Update local state immediately
+      setItems((prev) => prev.filter((item) => item.id !== itemId));
+      toast.success("Item deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete item");
+    }
+  };
+
+  const handleToggleAvailability = async (itemId: string, currentStatus: boolean) => {
+    try {
+      const payload = { isAvailable: !currentStatus };
+      const { error } = await updateMenuItem(itemId, payload);
+      
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      
+      // Update local state immediately
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === itemId 
+            ? { ...item, isAvailable: !currentStatus } 
+            : item
+        )
+      );
+      
+      toast.success(`Item ${!currentStatus ? "available" : "unavailable"}`);
+    } catch (error) {
+      toast.error("Failed to update availability");
+    }
+  };
+
   const handleSave = async (itemData: any) => {
     try {
       if (editingItem) {
         // Edit existing
-        const { error } = await updateMenuItem(editingItem.id, itemData);
+        const {  error } = await updateMenuItem(editingItem.id, itemData);
         if (error) {
           toast.error(error.message);
           return;
@@ -66,18 +108,15 @@ export function MenuManagement({
         toast.success("Item updated successfully");
       } else {
         // Add new
-        const { error } = await createMenuItem(itemData);
+        const { data, error } = await createMenuItem(itemData);
         if (error) {
           toast.error(error.message);
           return;
         }
-        const newItem = {
-          id: Date.now().toString(),
-          ...itemData,
-          isDeleted: false,
-          createdAt: new Date().toISOString(),
-        };
-        setItems((prev) => [newItem, ...prev]);
+
+        if (data) {
+          setItems((prev) => [data, ...prev]);
+        }
         toast.success("Item added successfully");
       }
       setIsModalOpen(false);
@@ -115,12 +154,16 @@ export function MenuManagement({
             items={items}
             categories={categoryData}
             onEdit={handleEdit}
+            onDelete={handleDelete}
+            onToggleAvailability={handleToggleAvailability}
           />
 
           <MenuCards
             items={items}
             categories={categoryData}
             onEdit={handleEdit}
+            onDelete={handleDelete}
+            onToggleAvailability={handleToggleAvailability}
           />
         </>
       ) : (

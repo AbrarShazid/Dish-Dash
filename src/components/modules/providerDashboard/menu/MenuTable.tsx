@@ -28,22 +28,23 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Edit, MoreVertical, Trash2, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
-import {  deleteMenuItem, updateMenuItem } from "@/actions/menu.action";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-
 
 interface MenuTableProps {
   items: any[];
   categories: any[];
   onEdit: (item: any) => void;
+  onDelete: (itemId: string) => Promise<void>;
+  onToggleAvailability: (itemId: string, currentStatus: boolean) => Promise<void>;
 }
 
-export function MenuTable({ items, categories, onEdit }: MenuTableProps) {
-  const router = useRouter()
+export function MenuTable({ 
+  items, 
+  categories, 
+  onEdit, 
+  onDelete,
+  onToggleAvailability 
+}: MenuTableProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -54,18 +55,7 @@ export function MenuTable({ items, categories, onEdit }: MenuTableProps) {
   const handleToggleAvailability = async (item: any) => {
     setLoadingId(item.id);
     try {
-     const payload={ isAvailable: !item.isAvailable }
-      const { error } = await updateMenuItem(item.id, payload);
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success(`Item ${item.isAvailable ? "unavailable" : "available"}`);
-        
-          router.refresh()
-      }
-    } catch (error) {
-      toast.error("Failed to update availability");
+      await onToggleAvailability(item.id, item.isAvailable);
     } finally {
       setLoadingId(null);
     }
@@ -76,16 +66,7 @@ export function MenuTable({ items, categories, onEdit }: MenuTableProps) {
 
     setLoadingId(deleteId);
     try {
-      const { error } = await deleteMenuItem(deleteId);
-
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success("Item deleted successfully");
-        router.refresh();
-      }
-    } catch (error) {
-      toast.error("Failed to delete item");
+      await onDelete(deleteId);
     } finally {
       setLoadingId(null);
       setDeleteId(null);
@@ -96,7 +77,7 @@ export function MenuTable({ items, categories, onEdit }: MenuTableProps) {
     <>
       <div className="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden hidden md:block">
         <Table>
-          <TableHeader className="bg-gray-50 dark:bg-gray-800/50  ">
+          <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
             <TableRow className="hover:bg-gray-100 dark:hover:bg-gray-900">
               <TableHead>Item</TableHead>
               <TableHead>Category</TableHead>
@@ -122,7 +103,7 @@ export function MenuTable({ items, categories, onEdit }: MenuTableProps) {
                   )}
                 </TableCell>
                 <TableCell>{getCategoryName(item.categoryId)}</TableCell>
-                <TableCell className="font-medium">${item.price}</TableCell>
+                <TableCell className="font-medium">  ${Number(item.price).toFixed(2)}</TableCell>
                 <TableCell>
                   {item.isAvailable ? (
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-0">
@@ -203,8 +184,9 @@ export function MenuTable({ items, categories, onEdit }: MenuTableProps) {
       </div>
 
       {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+
+      <AlertDialog  open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <AlertDialogContent className="bg-gray-50 dark:bg-gray-800">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Menu Item</AlertDialogTitle>
             <AlertDialogDescription>

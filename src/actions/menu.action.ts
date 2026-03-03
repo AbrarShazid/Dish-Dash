@@ -3,7 +3,7 @@
 import { menuService } from "@/services/menu.service";
 import { revalidatePath } from "next/cache";
 
-export async function createMenuItem(data: {
+export async function createMenuItem(payload: {
   name: string;
   description?: string;
   price: number;
@@ -11,14 +11,14 @@ export async function createMenuItem(data: {
   imageUrl?: string | null;
 }) {
   try {
-    const { error } = await menuService.createMenuItem(data);
+    const {data, error } = await menuService.createMenuItem(payload);
 
     if (error) {
       return { error };
     }
 
     revalidatePath("/dashboard-provider/manage-menu");
-    return { success: true };
+    return {data};
   } catch (error: any) {
     return { error: { message: error.message || "Failed to create menu item" } };
   }

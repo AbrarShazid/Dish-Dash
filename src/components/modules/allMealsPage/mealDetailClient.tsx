@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useCart } from "@/context/cartContext";
+import Image from "next/image";
 
 export default function MaelDetailsClient({ item }: any) {
 
@@ -51,12 +52,13 @@ export default function MaelDetailsClient({ item }: any) {
           <div className="grid md:grid-cols-2 gap-8 p-6 md:p-8">
             {/* Image Section */}
             <div className="relative">
-              <div className="aspect-square bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-xl overflow-hidden">
+              <div className="relative aspect-square bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-xl overflow-hidden">
                 {item.imageUrl ? (
-                  <img
+                  <Image
                     src={item.imageUrl}
                     alt={item.name}
-                    className="object-cover"
+                    fill
+                    className="object-cover "
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -218,11 +220,12 @@ export default function MaelDetailsClient({ item }: any) {
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                         {review.userImage ? (
-                          <img
+                          <Image
                             src={review.userImage}
                             alt={review.userName}
                             width={40}
                             height={40}
+                            quality={50}
                             className="object-cover"
                           />
                         ) : (
