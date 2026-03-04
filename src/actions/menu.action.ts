@@ -1,31 +1,31 @@
 "use server";
 
 import { menuService } from "@/services/menu.service";
-import { revalidatePath } from "next/cache";
 
 export async function createMenuItem(payload: {
   name: string;
-  description?: string;
+  description: string;
   price: number;
   categoryId: string;
-  imageUrl?: string | null;
+  imageUrl: string | null;
 }) {
   try {
-    const {data, error } = await menuService.createMenuItem(payload);
+    const { data, error } = await menuService.createMenuItem(payload);
 
     if (error) {
       return { error };
     }
 
-    revalidatePath("/dashboard-provider/manage-menu");
-    return {data};
+    return { data };
   } catch (error: any) {
-    return { error: { message: error.message || "Failed to create menu item" } };
+    return {
+      error: { message: error.message || "Failed to create menu item" },
+    };
   }
 }
 
 export async function updateMenuItem(
-  itemId: string, 
+  itemId: string,
   data: {
     name?: string;
     description?: string | null;
@@ -33,20 +33,21 @@ export async function updateMenuItem(
     categoryId?: string;
     imageUrl?: string | null;
     isAvailable?: boolean;
-  }
+  },
 ) {
   try {
-        console.log("Updating action item with data:", data); 
+    console.log("Updating action item with data:", data);
     const { error } = await menuService.updateMenuItem(itemId, data);
 
     if (error) {
       return { error };
     }
 
-    revalidatePath("/dashboard-provider/manage-menu");
     return { success: true };
   } catch (error: any) {
-    return { error: { message: error.message || "Failed to update menu item" } };
+    return {
+      error: { message: error.message || "Failed to update menu item" },
+    };
   }
 }
 
@@ -58,9 +59,10 @@ export async function deleteMenuItem(itemId: string) {
       return { error };
     }
 
-    revalidatePath("/dashboard-provider/manage-menu");
     return { success: true };
   } catch (error: any) {
-    return { error: { message: error.message || "Failed to delete menu item" } };
+    return {
+      error: { message: error.message || "Failed to delete menu item" },
+    };
   }
 }

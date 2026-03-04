@@ -27,27 +27,22 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { env } from "@/env";
-
-const CLOUD_NAME = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const UPLOAD_PRESET = env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+import { uploadImageCloudinary } from "@/lib/uploadCloudinary";
 
 const menuItemSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  description: z.string().optional(),
+  description: z.string(),
   price: z.number().min(0.01, "Price must be greater than 0"),
   categoryId: z.string().min(1, "Please select a category"),
-  imageUrl: z.string().optional().nullable(),
+  imageUrl: z.string(),
 });
-
-type MenuItemFormValues = z.infer<typeof menuItemSchema>;
 
 interface AddEditItemModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (values: any) => void;
+  onSave: (values: any, toastId?: string | number) => void;
   categories: { id: string; name: string }[];
   editingItem?: any | null;
 }
@@ -60,90 +55,83 @@ export function AddEditItemModal({
   editingItem,
 }: AddEditItemModalProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const form = useForm({
     defaultValues: {
-      name: editingItem?.name || "",
-      description: editingItem?.description || "",
-      price: editingItem?.price || 0,
-      categoryId: editingItem?.categoryId || "",
-      imageUrl: editingItem?.imageUrl || null,
+      name: "",
+      description: "",
+      price: 0,
+      categoryId: "",
+      imageUrl: "",
     },
     validators: {
       onSubmit: menuItemSchema,
     },
     onSubmit: async ({ value }) => {
-      onSave(value);
+      setIsUploading(true);
+      const toastId = toast.loading("Saving...");
+      try {
+        if (selectedFile) {
+          value.imageUrl = await uploadImageCloudinary(selectedFile);
+        }
+        onSave(value, toastId);
+        setSelectedFile(null);
+        form.reset();
+      } catch (err: any) {
+        toast.error(err.message || "Failed to save item", { id: toastId });
+      } finally {
+        setIsUploading(false);
+      }
     },
   });
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    setSelectedFile(null);
+    if (isOpen) {
+      if (editingItem) {
+        form.reset({
+          name: editingItem.name || "",
+          description: editingItem.description || "",
+          price: editingItem.price || 0,
+          categoryId: editingItem.categoryId || "",
+          imageUrl: editingItem.imageUrl || "",
+        });
+      } else {
+        form.reset({
+          name: "",
+          description: "",
+          price: 0,
+          categoryId: "",
+          imageUrl: "",
+        });
+      }
+    }
+  }, [isOpen]);
+
+  // Separate useEffect for editingItem changes
+  useEffect(() => {
+    if (isOpen && editingItem) {
+      form.setFieldValue("imageUrl", editingItem.imageUrl || "");
+    }
+  }, [editingItem?.id]);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file size (max 5MB)
+    //  (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast.error("Image size must be less than 5MB");
       return;
     }
 
-    // Validate file type
-    if (!file.type.startsWith("image/")) {
-      toast.error("File must be an image");
-      return;
-    }
-
-    setIsUploading(true);
-    const toastId = toast.loading("Uploading image...");
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", UPLOAD_PRESET);
-
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(
-          errorData.error?.message || `Upload failed: ${res.statusText}`,
-        );
-      }
-
-      const result = await res.json();
-
-      if (!result.secure_url) {
-        throw new Error("Upload failed - no URL returned");
-      }
-
-      // Optimize the URL
-      const optimizedUrl = result.secure_url.replace(
-        "/upload/",
-        "/upload/f_auto,q_auto/",
-      );
-
-      form.setFieldValue("imageUrl", optimizedUrl);
-      toast.success("Image uploaded successfully", { id: toastId });
-
-      // Clear the file input
-      e.target.value = "";
-    } catch (error: any) {
-      console.error("Upload error:", error);
-      toast.error(error.message || "Failed to upload image", { id: toastId });
-    } finally {
-      setIsUploading(false);
-    }
+    setSelectedFile(file);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] flex flex-col p-0 bg-white dark:bg-gray-900">
+      <DialogContent className="sm:max-w-125 max-h-[90vh] flex flex-col p-0 bg-white dark:bg-gray-900">
         <DialogHeader className="px-6 pt-6 pb-2">
           <DialogTitle>
             {editingItem ? "Edit Menu Item" : "Add New Menu Item"}
@@ -217,7 +205,7 @@ export function AddEditItemModal({
                         <Input
                           id={field.name}
                           type="number"
-                          step="0.01" // Changed from "1" to "0.01" for decimal prices
+                          step="0.01"
                           min="0"
                           value={field.state.value}
                           onChange={(e) =>
@@ -249,7 +237,7 @@ export function AddEditItemModal({
                           </SelectTrigger>
                           <SelectContent className="bg-gray-50 dark:bg-gray-800 ">
                             {categories.map((cat) => (
-                              <SelectItem  key={cat.id} value={cat.id}>
+                              <SelectItem key={cat.id} value={cat.id}>
                                 {cat.name}
                               </SelectItem>
                             ))}
@@ -264,63 +252,35 @@ export function AddEditItemModal({
                 />
               </div>
 
-              {/* Image Upload - Returns URL */}
+              {/* Image Upload */}
               <Field>
                 <FieldLabel>Item Image</FieldLabel>
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    disabled={isUploading}
-                    className="cursor-pointer"
-                  />
-                  {isUploading && <Loader2 className="w-4 h-4 animate-spin" />}
-                </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Max file size: 5MB. Supported formats: JPG, PNG, GIF
-                </p>
 
-                {/* Show upload status */}
-                <form.Field
-                  name="imageUrl"
-                  children={(field) => (
-                    <>
-                      {field.state.value && (
-                        <div className="mt-2">
-                          <p className="text-xs text-green-600 dark:text-green-400">
-                            ✓ Image uploaded successfully
-                          </p>
-                        </div>
-                      )}
-                      {editingItem?.imageUrl && !field.state.value && (
-                        <p className="text-xs text-green-600 dark:text-green-400 mt-1">
-                          Current image will be kept
-                        </p>
-                      )}
-                    </>
-                  )}
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  className="cursor-pointer"
                 />
+
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Max file size: 5MB. Supported formats: JPG, PNG, GIF etc
+                </p>
               </Field>
             </FieldGroup>
           </div>
 
           <DialogFooter className="px-6 py-4 border-t border-gray-200 dark:border-gray-800">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isUploading}
+            >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={form.state.isSubmitting || isUploading}
-            >
-              {form.state.isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                "Save Item"
-              )}
+            <Button type="submit" disabled={isUploading}>
+              Save Item
             </Button>
           </DialogFooter>
         </form>

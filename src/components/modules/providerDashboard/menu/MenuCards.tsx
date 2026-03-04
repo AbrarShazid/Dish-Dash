@@ -28,15 +28,18 @@ interface MenuCardsProps {
   categories: any[];
   onEdit: (item: any) => void;
   onDelete: (itemId: string) => Promise<void>;
-  onToggleAvailability: (itemId: string, currentStatus: boolean) => Promise<void>;
+  onToggleAvailability: (
+    itemId: string,
+    currentStatus: boolean,
+  ) => Promise<void>;
 }
 
-export function MenuCards({ 
-  items, 
-  categories, 
-  onEdit, 
+export function MenuCards({
+  items,
+  categories,
+  onEdit,
   onDelete,
-  onToggleAvailability 
+  onToggleAvailability,
 }: MenuCardsProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -68,7 +71,7 @@ export function MenuCards({
 
   return (
     <>
-      <div className="space-y-3 md:hidden">
+      <div className="space-y-3 lg:hidden">
         {items.map((item) => (
           <Card
             key={item.id}

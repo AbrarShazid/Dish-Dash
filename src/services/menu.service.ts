@@ -107,14 +107,20 @@ export const menuService = {
 
   createMenuItem: async function (payload: {
     name: string;
-    description?: string;
+    description: string | null;
     price: number;
     categoryId: string;
-    imageUrl?: string | null;
+    imageUrl: string | null;
   }) {
     try {
       const cookieStore = await cookies();
 
+      if (payload.description === "") {
+        payload.description = null;
+      }
+      if (payload.imageUrl === "") {
+        payload.imageUrl = null;
+      }
       const res = await fetch(`${BACKEND_URL}/menu/add-item`, {
         method: "POST",
         headers: {
@@ -153,7 +159,6 @@ export const menuService = {
   ) {
     try {
       const cookieStore = await cookies();
-      console.log("Sending to backend:", data);
 
       const res = await fetch(`${BACKEND_URL}/menu/update/${itemId}`, {
         method: "PATCH",

@@ -1,5 +1,6 @@
 "use client";
 import { useCart } from "@/context/cartContext";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 import { ShoppingCart, Store } from "lucide-react";
 import Image from "next/image";
 
@@ -25,7 +26,7 @@ export default function MenuItemCard({ item }: { item: any }) {
       <div className="aspect-square relative bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg mb-3 overflow-hidden">
         {item.imageUrl ? (
           <Image
-            src={item.imageUrl}
+            src={getCloudinaryImage(item.imageUrl, 600)}
             alt={item.name}
             fill
             className="object-cover"

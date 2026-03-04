@@ -35,15 +35,18 @@ interface MenuTableProps {
   categories: any[];
   onEdit: (item: any) => void;
   onDelete: (itemId: string) => Promise<void>;
-  onToggleAvailability: (itemId: string, currentStatus: boolean) => Promise<void>;
+  onToggleAvailability: (
+    itemId: string,
+    currentStatus: boolean,
+  ) => Promise<void>;
 }
 
-export function MenuTable({ 
-  items, 
-  categories, 
-  onEdit, 
+export function MenuTable({
+  items,
+  categories,
+  onEdit,
   onDelete,
-  onToggleAvailability 
+  onToggleAvailability,
 }: MenuTableProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -75,7 +78,7 @@ export function MenuTable({
 
   return (
     <>
-      <div className="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden hidden md:block">
+      <div className="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden hidden lg:block">
         <Table>
           <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
             <TableRow className="hover:bg-gray-100 dark:hover:bg-gray-900">
@@ -93,17 +96,20 @@ export function MenuTable({
                 className="hover:bg-gray-100 dark:hover:bg-gray-900"
               >
                 <TableCell>
-                  <div className="font-medium text-gray-900 dark:text-white">
+                  <div className="font-medium text-gray-900 dark:text-white truncate max-w-80">
                     {item.name}
                   </div>
                   {item.description && (
-                    <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-62">
+                    <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-80">
                       {item.description}
                     </div>
                   )}
                 </TableCell>
                 <TableCell>{getCategoryName(item.categoryId)}</TableCell>
-                <TableCell className="font-medium">  ${Number(item.price).toFixed(2)}</TableCell>
+                <TableCell className="font-medium">
+                  {" "}
+                  ${Number(item.price).toFixed(2)}
+                </TableCell>
                 <TableCell>
                   {item.isAvailable ? (
                     <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-0">
@@ -185,7 +191,7 @@ export function MenuTable({
 
       {/* Delete Confirmation */}
 
-      <AlertDialog  open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent className="bg-gray-50 dark:bg-gray-800">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Menu Item</AlertDialogTitle>

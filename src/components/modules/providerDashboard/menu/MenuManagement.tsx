@@ -1,4 +1,3 @@
-// components/modules/provider/menu/MenuManagement.tsx
 "use client";
 
 import { useState } from "react";
@@ -7,7 +6,11 @@ import { Plus } from "lucide-react";
 import { MenuTable } from "./MenuTable";
 import { MenuCards } from "./MenuCards";
 import { AddEditItemModal } from "./AddEditItemModal";
-import { createMenuItem, updateMenuItem, deleteMenuItem } from "@/actions/menu.action";
+import {
+  createMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+} from "@/actions/menu.action";
 import { toast } from "sonner";
 
 interface Data {
@@ -57,8 +60,8 @@ export function MenuManagement({
         toast.error(error.message);
         return;
       }
-      
-      // Update local state immediately
+
+      // Update local state
       setItems((prev) => prev.filter((item) => item.id !== itemId));
       toast.success("Item deleted successfully");
     } catch (error) {
@@ -66,38 +69,40 @@ export function MenuManagement({
     }
   };
 
-  const handleToggleAvailability = async (itemId: string, currentStatus: boolean) => {
+  const handleToggleAvailability = async (
+    itemId: string,
+    currentStatus: boolean,
+  ) => {
     try {
       const payload = { isAvailable: !currentStatus };
       const { error } = await updateMenuItem(itemId, payload);
-      
+
       if (error) {
         toast.error(error.message);
         return;
       }
-      
-      // Update local state immediately
+
+      // Update local state
       setItems((prev) =>
         prev.map((item) =>
-          item.id === itemId 
-            ? { ...item, isAvailable: !currentStatus } 
-            : item
-        )
+          item.id === itemId ? { ...item, isAvailable: !currentStatus } : item,
+        ),
       );
-      
+
       toast.success(`Item ${!currentStatus ? "available" : "unavailable"}`);
     } catch (error) {
       toast.error("Failed to update availability");
     }
   };
 
-  const handleSave = async (itemData: any) => {
+  const handleSave = async (itemData: any, toastId: any) => {
     try {
       if (editingItem) {
         // Edit existing
-        const {  error } = await updateMenuItem(editingItem.id, itemData);
+
+        const { error } = await updateMenuItem(editingItem.id, itemData);
         if (error) {
-          toast.error(error.message);
+          toast.error(error.message, { id: toastId });
           return;
         }
         setItems((prev) =>
@@ -105,35 +110,36 @@ export function MenuManagement({
             item.id === editingItem.id ? { ...item, ...itemData } : item,
           ),
         );
-        toast.success("Item updated successfully");
+        toast.success("Item updated successfully", { id: toastId });
       } else {
         // Add new
+
         const { data, error } = await createMenuItem(itemData);
         if (error) {
-          toast.error(error.message);
+          toast.error(error.message, { id: toastId });
           return;
         }
 
         if (data) {
           setItems((prev) => [data, ...prev]);
         }
-        toast.success("Item added successfully");
+        toast.success("Item added successfully", { id: toastId });
       }
       setIsModalOpen(false);
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", { id: toastId });
     }
   };
 
   return (
     <div className="space-y-6 md:mx-6 mx-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="lg:flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-xl  md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
             Menu Management
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-gray-500 dark:text-gray-400 mt-1 mb-6 lg:mb-0">
             Manage your restaurant's menu items
           </p>
         </div>
