@@ -36,7 +36,6 @@ type BecomeProviderProps = {
 export default function BecomeProvider({
   defaultRestaurantName,
   defaultDescription,
-  defaultImage,
 }: BecomeProviderProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);

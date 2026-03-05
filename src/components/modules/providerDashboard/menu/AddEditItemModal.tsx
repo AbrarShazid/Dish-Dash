@@ -26,7 +26,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { Loader2 } from "lucide-react";
+
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { uploadImageCloudinary } from "@/lib/uploadCloudinary";
@@ -119,13 +119,6 @@ export function AddEditItemModal({
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    //  (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image size must be less than 5MB");
-      return;
-    }
-
     setSelectedFile(file);
   };
 

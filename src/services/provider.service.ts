@@ -1,13 +1,13 @@
 import { env } from "@/env";
-import { BecomeProviderPayload } from "@/types";
+import { BecomeProviderPayload, UpdateProviderProfileData } from "@/types";
 import { cookies } from "next/headers";
 
-const backendUrl = env.BACKEND_URL;
+const BACKEND_URL = env.BACKEND_URL;
 
 export const providerService = {
   getAllProvider: async function () {
     try {
-      const res = await fetch(`${backendUrl}/provider`, {
+      const res = await fetch(`${BACKEND_URL}/provider`, {
         cache: "no-store",
       });
 
@@ -29,7 +29,7 @@ export const providerService = {
 
   getProviderWithMenu: async function (providerId: string) {
     try {
-      const res = await fetch(`${backendUrl}/provider/${providerId}`, {
+      const res = await fetch(`${BACKEND_URL}/provider/${providerId}`, {
         // cache: "no-store",
 
         next: { revalidate: 30 },
@@ -53,7 +53,7 @@ export const providerService = {
   getProviderOrder: async function () {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(`${backendUrl}/order/provider-orders`, {
+      const res = await fetch(`${BACKEND_URL}/order/provider-orders`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -80,17 +80,14 @@ export const providerService = {
   becomeProvider: async function (payload: BecomeProviderPayload) {
     try {
       const cookieStore = await cookies();
-      const res = await fetch(
-        `${process.env.BACKEND_URL}/provider/become-provider`,
-        {
-          method: "PATCH",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json",
-            cookie: cookieStore.toString(),
-          },
+      const res = await fetch(`${BACKEND_URL}/provider/become-provider`, {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          cookie: cookieStore.toString(),
         },
-      );
+      });
 
       const result = await res.json();
       if (result.success) return { data: result.data, error: null };
@@ -100,6 +97,62 @@ export const providerService = {
         data: null,
         error: { message: error.message || "Something went wrong!" },
       };
+    }
+  },
+
+  //update restaurant
+  updateProfile: async (data: UpdateProviderProfileData) => {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/provider/provider-profile`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(data),
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        return { data: result.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: { message: result.message || "Failed to update profile" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
+    }
+  },
+
+  getProviderProfile: async () => {
+    try {
+      const cookieStore = await cookies();
+
+      const res = await fetch(`${BACKEND_URL}/provider/my-profile`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        return { data: result.data, error: null };
+      }
+
+      return {
+        data: null,
+        error: { message: result.message || "Failed to get profile" },
+      };
+    } catch (error) {
+      return { data: null, error: { message: "Something went wrong!" } };
     }
   },
 };
