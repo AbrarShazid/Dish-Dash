@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 import { Provider } from "@/types";
 import { Clock, ShoppingBag, Store, Utensils } from "lucide-react";
 import Image from "next/image";
@@ -13,8 +14,7 @@ export default function RestaurantCard({ provider }: { provider: Provider }) {
         {provider.image ? (
           <Image
             fill
-            unoptimized
-            src={provider.image}
+            src={getCloudinaryImage(provider.image,800)}
             alt={provider.restaurantName}
             className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
           />

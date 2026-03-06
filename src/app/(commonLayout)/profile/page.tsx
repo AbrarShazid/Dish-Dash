@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 
 export default async function MyProfile() {
   const { data, error } = await userService.getUserProfile();
@@ -29,8 +30,8 @@ export default async function MyProfile() {
     <div className="container mx-auto py-16 px-4 max-w-3xl">
       <Card className="shadow-lg bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all">
         <CardHeader className="flex flex-col items-center text-center space-y-4">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src={data.image || ""} />
+          <Avatar className="h-28 w-28">
+            <AvatarImage src={getCloudinaryImage(data.image,140) || ""} />
             <AvatarFallback className="bg-linear-to-r from-amber-500 to-orange-600 text-white text-lg">
               {getInitials()}
             </AvatarFallback>

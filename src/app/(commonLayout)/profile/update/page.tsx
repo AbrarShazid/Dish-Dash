@@ -1,5 +1,4 @@
 "use client";
-
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { toast } from "sonner";
@@ -7,10 +6,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { updateProfile } from "@/actions/user.action";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { env } from "@/env";
-
-const CLOUD_NAME = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const UPLOAD_PRESET = env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+import Image from "next/image";
+import { uploadImageCloudinary } from "@/lib/uploadCloudinary";
 
 const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -48,42 +45,8 @@ export default function UpdateProfileForm({
 
       try {
         let imageUrl: string | undefined;
-
         if (value.image instanceof File) {
-          if (value.image.size > 5 * 1024 * 1024) {
-            throw new Error("Image size must be less than 5MB");
-          }
-
-          const formData = new FormData();
-          formData.append("file", value.image);
-
-          formData.append("upload_preset", UPLOAD_PRESET);
-
-          const res = await fetch(
-            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-            {
-              method: "POST",
-              body: formData,
-            },
-          );
-          if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(
-              errorData.error?.message || `Upload failed: ${res.statusText}`,
-            );
-          }
-
-          const result = await res.json();
-          if (!result.secure_url) {
-            throw new Error("Upload failed - no URL returned");
-          }
-
-          const optimizedUrl = result.secure_url.replace(
-            "/upload/",
-            "/upload/f_auto,q_auto/",
-          );
-
-          imageUrl = optimizedUrl;
+          imageUrl = await uploadImageCloudinary(value.image);
         }
 
         const payload = { name: value.name, image: imageUrl };
@@ -158,7 +121,6 @@ export default function UpdateProfileForm({
                   if (file) {
                     field.handleChange(file);
 
-                    // Clean up old preview URL if it exists and isn't the default
                     if (preview && preview !== defaultImage) {
                       URL.revokeObjectURL(preview);
                     }
@@ -170,10 +132,12 @@ export default function UpdateProfileForm({
                 disabled={isSubmitting}
               />
               {preview && (
-                <div className="mt-3 flex justify-center">
-                  <img
+                <div className="mt-3  flex justify-center">
+                  <Image
                     src={preview}
                     alt="Preview"
+                width={130}
+                height={130}
                     className="w-32 h-32 rounded-full object-cover border"
                   />
                 </div>

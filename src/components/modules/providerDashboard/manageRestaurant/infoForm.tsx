@@ -13,6 +13,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { uploadImageCloudinary } from "@/lib/uploadCloudinary";
 import Image from "next/image";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 
 const infoFormSchema = z.object({
   restaurantName: z.string().min(1, "Restaurant name is required"),
@@ -191,7 +192,13 @@ export function RestaurantInfoForm({
               <div className="relative w-full max-w-md mx-auto">
                 <div className="relative aspect-video rounded-lg overflow-hidden border border-gray-200 dark:border-gray-800">
                   <Image
-                    src={currentImage || ""}
+                    src={
+                      preview
+                        ? preview
+                        : form.state.values.imageUrl
+                          ? getCloudinaryImage(form.state.values.imageUrl, 800)
+                          : ""
+                    }
                     alt="Restaurant preview"
                     fill
                     className="object-cover"

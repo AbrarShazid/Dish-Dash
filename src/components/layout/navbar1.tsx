@@ -31,6 +31,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Roles } from "@/constants/roles";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 
 interface MenuItem {
   title: string;
@@ -160,10 +161,9 @@ const Navbar = ({
       .slice(0, 2);
   };
 
-  
   const showCart = () => {
-    if (!user) return true; 
-    return user.role === Roles.customer; 
+    if (!user) return true;
+    return user.role === Roles.customer;
   };
 
   return (
@@ -225,7 +225,7 @@ const Navbar = ({
                     className="relative h-10 w-10 rounded-full p-0"
                   >
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={user.image || ""} alt={user.name} />
+                      <AvatarImage src={getCloudinaryImage(user.image, 80) || ""} alt={user.name} />
                       <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                         {getUserInitials()}
                       </AvatarFallback>
@@ -350,7 +350,7 @@ const Navbar = ({
                     {user && (
                       <div className="flex items-center gap-3 mb-6 pb-6 border-b">
                         <Avatar className="h-12 w-12">
-                          <AvatarImage src={user.image || ""} alt={user.name} />
+                          <AvatarImage src={getCloudinaryImage(user.image, 96) || ""} alt={user.name} />
                           <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                             {getUserInitials()}
                           </AvatarFallback>

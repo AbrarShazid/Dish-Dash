@@ -14,6 +14,7 @@ import {
 import { User, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { UserStatusToggle } from "@/components/modules/adminDashboard/userStatusToggle";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -151,7 +152,7 @@ export default async function AllUser() {
                         <div className="flex items-center gap-3">
                           <Avatar className="h-10 w-10">
                             <AvatarImage
-                              src={user.image || ""}
+                              src={getCloudinaryImage(user.image,150) || ""}
                               alt={user.name}
                             />
                             <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
@@ -220,7 +221,7 @@ export default async function AllUser() {
               {/* User Info */}
               <div className="flex items-start gap-3 mb-3">
                 <Avatar className="h-12 w-12">
-                  <AvatarImage src={user.image || ""} alt={user.name} />
+                  <AvatarImage src={getCloudinaryImage(user.image,150) || ""} alt={user.name} />
                   <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                     {getUserInitials(user.name)}
                   </AvatarFallback>

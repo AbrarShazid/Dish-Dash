@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 import {
   Star,
   Store,
@@ -12,11 +11,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useCart } from "@/context/cartContext";
 import Image from "next/image";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 
 export default function MaelDetailsClient({ item }: any) {
-
   const { addItem } = useCart();
- const handleAddToCart = () => {
+  const handleAddToCart = () => {
     addItem({
       mealId: item.id,
       mealName: item.name,
@@ -27,7 +26,6 @@ export default function MaelDetailsClient({ item }: any) {
     });
   };
 
-    
   const avgRating = item.reviews?.length
     ? (
         item.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) /
@@ -55,7 +53,7 @@ export default function MaelDetailsClient({ item }: any) {
               <div className="relative aspect-square bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-xl overflow-hidden">
                 {item.imageUrl ? (
                   <Image
-                    src={item.imageUrl}
+                    src={getCloudinaryImage(item.imageUrl, 1100)}
                     alt={item.name}
                     fill
                     className="object-cover "
@@ -183,7 +181,7 @@ export default function MaelDetailsClient({ item }: any) {
                   size="lg"
                   className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-black text-white"
                   disabled={!item.isAvailable}
-                    onClick={handleAddToCart}
+                  onClick={handleAddToCart}
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Add to Cart
@@ -221,7 +219,7 @@ export default function MaelDetailsClient({ item }: any) {
                       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                         {review.userImage ? (
                           <Image
-                            src={review.userImage}
+                            src={getCloudinaryImage(review.userImage, 100)}
                             alt={review.userName}
                             width={40}
                             height={40}

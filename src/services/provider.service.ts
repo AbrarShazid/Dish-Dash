@@ -31,7 +31,6 @@ export const providerService = {
     try {
       const res = await fetch(`${BACKEND_URL}/provider/${providerId}`, {
         // cache: "no-store",
-
         next: { revalidate: 30 },
       });
 

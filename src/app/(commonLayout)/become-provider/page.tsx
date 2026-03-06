@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { becomeProvider } from "@/actions/provider.action";
+import { uploadImageCloudinary } from "@/lib/uploadCloudinary";
+import Image from "next/image";
 
 const becomeProviderSchema = z.object({
   restaurantName: z
@@ -57,27 +59,7 @@ export default function BecomeProvider({
         let imageUrl: string | undefined;
 
         if (value.image instanceof File) {
-          if (value.image.size > 5 * 1024 * 1024) {
-            throw new Error("Image size must be less than 5MB");
-          }
-
-          const formData = new FormData();
-          formData.append("image", value.image);
-
-          const res = await fetch(
-            "https://api.imgbb.com/1/upload?key=27aac98f57c76c0d2ed161e4f0ccff7b",
-            { method: "POST", body: formData },
-          );
-
-          const result = await res.json();
-          if (!result.success) {
-            toast.error(result.error?.message || "Image upload failed", {
-              id: toastId,
-            });
-            return;
-          }
-
-          imageUrl = result.data.url;
+          imageUrl = await uploadImageCloudinary(value.image);
         }
 
         // Prepare payload for your server action
@@ -166,7 +148,7 @@ export default function BecomeProvider({
                       />
                       {isInvalid && (
                         <p className="text-sm text-red-500">
-                          {field.state.meta.errors.join(", ")}
+                          {field.state.meta.errors[0]?.message}
                         </p>
                       )}
                     </div>
@@ -248,10 +230,12 @@ export default function BecomeProvider({
 
                     {preview && (
                       <div className="mt-3 flex justify-center">
-                        <img
+                        <Image
                           src={preview}
                           alt="Preview"
-                          className="w-32 h-32 md:w-80 md:h-80 rounded-lg object-cover border"
+                          width={320}
+                          height={320}
+                          className="rounded-lg object-cover border"
                         />
                       </div>
                     )}
@@ -263,7 +247,7 @@ export default function BecomeProvider({
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-black text-white py-6 text-lg"
+                className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-black text-white py-6 text-md"
               >
                 {isSubmitting ? "Processing..." : "Become a Provider"}
               </Button>

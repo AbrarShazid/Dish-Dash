@@ -8,6 +8,8 @@ import Link from "next/link";
 
 export default function MenuItemCard({ item }: { item: any }) {
   const { addItem } = useCart();
+  
+  
 
   const handleAddToCart = () => {
     addItem({
