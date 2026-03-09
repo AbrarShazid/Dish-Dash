@@ -8,8 +8,6 @@ import Link from "next/link";
 
 export default function MenuItemCard({ item }: { item: any }) {
   const { addItem } = useCart();
-  
-  
 
   const handleAddToCart = () => {
     addItem({
@@ -29,6 +27,7 @@ export default function MenuItemCard({ item }: { item: any }) {
         {item.imageUrl ? (
           <Image
             src={getCloudinaryImage(item.imageUrl, 600)}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             alt={item.name}
             fill
             className="object-cover"

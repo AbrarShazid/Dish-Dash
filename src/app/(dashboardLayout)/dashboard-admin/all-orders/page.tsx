@@ -15,10 +15,10 @@ import {
   User,
   Eye,
   ChevronRight,
-  Package,
 } from "lucide-react";
 import Link from "next/link";
 import { orderStatus } from "@/constants/orderStatus";
+import { ErrorState } from "@/components/layout/ErrorState";
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -34,38 +34,7 @@ export default async function AllOrders() {
   const { data, error } = await orderService.getAllOrder();
 
   if (error) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Card className="w-full max-w-md p-6 text-center bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden rounded-xl">
-          <div className="text-6xl mb-4">😕</div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            Something went wrong
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">
-            {error.message}
-          </p>
-          <Button asChild>
-            <Link href="/dashboard/admin">Go Back</Link>
-          </Button>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!data || data.length === 0) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <Card className="w-full max-w-md p-12 text-center">
-          <Package className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
-            No orders yet
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            Orders will appear here once customers place them
-          </p>
-        </Card>
-      </div>
-    );
+    return <ErrorState message={error.message}></ErrorState>;
   }
 
   const statusOrder = [

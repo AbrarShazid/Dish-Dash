@@ -225,7 +225,7 @@ const Navbar = ({
                     className="relative h-10 w-10 rounded-full p-0"
                   >
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={getCloudinaryImage(user.image, 80) || ""} alt={user.name} />
+                      <AvatarImage className="object-cover" src={getCloudinaryImage(user.image, 80) || ""} alt={user.name} />
                       <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                         {getUserInitials()}
                       </AvatarFallback>

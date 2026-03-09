@@ -83,8 +83,8 @@ export function UserStatusToggle({
         )}
       </Button>
 
-      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
+      <AlertDialog open={showDialog} onOpenChange={setShowDialog} >
+        <AlertDialogContent className="bg-gray-100 dark:bg-gray-800">
           <AlertDialogHeader>
             <AlertDialogTitle>
               {isActive ? "Suspend User" : "Activate User"}

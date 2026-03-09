@@ -87,6 +87,7 @@ export function RestaurantInfoForm({
     },
   });
 
+  
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -199,6 +200,7 @@ export function RestaurantInfoForm({
                           ? getCloudinaryImage(form.state.values.imageUrl, 800)
                           : ""
                     }
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     alt="Restaurant preview"
                     fill
                     className="object-cover"

@@ -58,7 +58,7 @@ export default async function ProviderOrder() {
         {data.map((order: any) => (
           <div
             key={order.orderId}
-            className=" p-5 shadow-sm hover:shadow-md      bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all"
+            className=" p-5 shadow-sm hover:shadow-md bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all"
           >
             <div className="flex justify-between items-center mb-3">
               <div>
@@ -100,12 +100,16 @@ export default async function ProviderOrder() {
             </div>
 
             {/* Single button to go to order details page for status update */}
-            <Link
-              href={`/orders/${order.orderId}`}
-              className="inline-block  px-4 py-2  text-sm font-medium rounded-lg text-center  transition                w-full mt-4 bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-black text-white"
-            >
-              Update Status →
-            </Link>
+            {order.status === "DELIVERED" ? (
+              <></>
+            ) : (
+              <Link
+                href={`/orders/${order.orderId}`}
+                className="inline-block  px-4 py-2  text-sm font-medium rounded-lg text-center  transition                w-full mt-4 bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 dark:text-black text-white"
+              >
+                Update Status →
+              </Link>
+            )}
           </div>
         ))}
       </div>

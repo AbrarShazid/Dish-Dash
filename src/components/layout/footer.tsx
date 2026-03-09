@@ -24,18 +24,13 @@ const Footer = ({ className }: FooterProps) => {
     { title: "About us", url: "/about" },
     { title: "Contact us", url: "/contact" },
     { title: "Press", url: "/press" },
-
   ];
 
-  const servicesLinks = [
-    { title: "Food delivery", url: "/meals" },
-  
-  ];
+  const servicesLinks = [{ title: "Food delivery", url: "/meals" }];
 
   const partnerLinks = [
-
-    { title: "Terms & conditions", url: "/terms" },
-    { title: "Refund & cancellation", url: "/refund" },
+    { title: "Terms & conditions", url: "#" },
+    { title: "Refund & cancellation", url: "#" },
   ];
 
   const socialLinks = [
@@ -43,7 +38,11 @@ const Footer = ({ className }: FooterProps) => {
     { icon: Twitter, url: "https://twitter.com", label: "Twitter" },
     { icon: Instagram, url: "https://instagram.com", label: "Instagram" },
     { icon: Youtube, url: "https://youtube.com", label: "Youtube" },
-    { icon: Linkedin, url: "https://linkedin.com/in/abrar-shazid", label: "LinkedIn" },
+    {
+      icon: Linkedin,
+      url: "https://linkedin.com/in/abrar-shazid",
+      label: "LinkedIn",
+    },
   ];
 
   return (
@@ -55,16 +54,14 @@ const Footer = ({ className }: FooterProps) => {
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block mb-4">
               <h2 className="text-2xl font-bold bg-linear-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-               DishDash
+                DishDash
               </h2>
             </Link>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-md">
               Order food from the best restaurants with DishDash
-             
             </p>
 
             {/* App Store Badges */}
-       
 
             {/* Social Links */}
             <div className="flex gap-4">
@@ -154,7 +151,7 @@ const Footer = ({ className }: FooterProps) => {
         {/* <Separator className="my-8" /> */}
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2" >
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-2">
           <p className="text-sm text-gray-600 dark:text-gray-400 ">
             © Copyright 2026 DishDash Express Limited. All rights reserved.
           </p>

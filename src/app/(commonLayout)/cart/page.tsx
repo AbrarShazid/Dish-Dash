@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCart } from "@/context/cartContext";
+import Image from "next/image";
+import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
 
 export default function CartPage() {
   const {
@@ -58,6 +60,8 @@ export default function CartPage() {
     );
   }
 
+  
+  
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 rounded-xl">
       <div className="max-w-6xl mx-auto px-4">
@@ -86,14 +90,14 @@ export default function CartPage() {
               >
                 <div className="flex gap-4">
                   {/* Image */}
-                  <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shrink-0">
+                  <div className="w-24 h-24 relative bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden shrink-0">
                     {item.imageUrl ? (
-                      <img
-                        src={item.imageUrl}
+                      <Image
+                        src={getCloudinaryImage(item.imageUrl, 220)}
                         alt={item.mealName}
-                        width={96}
-                        height={96}
-                        className="object-cover w-full h-full"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover "
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

@@ -53,10 +53,11 @@ export default function MaelDetailsClient({ item }: any) {
               <div className="relative aspect-square bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-xl overflow-hidden">
                 {item.imageUrl ? (
                   <Image
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     src={getCloudinaryImage(item.imageUrl, 1100)}
                     alt={item.name}
                     fill
-                    className="object-cover "
+                    className="object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -216,14 +217,13 @@ export default function MaelDetailsClient({ item }: any) {
                   >
                     {/* User Info */}
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
+                      <div className="w-10 h-10 relative  rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">
                         {review.userImage ? (
                           <Image
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             src={getCloudinaryImage(review.userImage, 100)}
                             alt={review.userName}
-                            width={40}
-                            height={40}
-                            quality={50}
+                         fill
                             className="object-cover"
                           />
                         ) : (

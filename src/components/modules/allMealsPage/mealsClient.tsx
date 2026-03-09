@@ -225,7 +225,7 @@ export default function MealsClient({
                   </div>
                 )}
 
-                <div className="flex items-center justify-center my-6">
+                <div className="flex items-center justify-center my-6 ">
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Showing {meals.length} of {meta.total} meals
                   </p>

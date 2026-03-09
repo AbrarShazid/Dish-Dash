@@ -1,7 +1,6 @@
 import { userService } from "@/services/user.service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Table,
@@ -11,10 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { User, CalendarDays } from "lucide-react";
-import Link from "next/link";
+import { CalendarDays } from "lucide-react";
 import { UserStatusToggle } from "@/components/modules/adminDashboard/userStatusToggle";
 import { getCloudinaryImage } from "@/lib/getCloudinaryImage";
+import { ErrorState } from "@/components/layout/ErrorState";
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -37,38 +36,7 @@ export default async function AllUser() {
   const { data, error } = await userService.getAlluser();
 
   if (error) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md p-6 text-center bg-linear-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 rounded-xl">
-          <div className="text-6xl mb-4">😕</div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            Something went wrong
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">
-            {error.message}
-          </p>
-          <Button asChild>
-            <Link href="/">Go Back</Link>
-          </Button>
-        </Card>
-      </div>
-    );
-  }
-
-  if (!data || data.length === 0) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md p-12 text-center">
-          <User className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
-            No users found
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            Users will appear here once they register
-          </p>
-        </Card>
-      </div>
-    );
+    return <ErrorState message={error.message}></ErrorState>;
   }
 
   // Stats
@@ -152,7 +120,8 @@ export default async function AllUser() {
                         <div className="flex items-center gap-3">
                           <Avatar className="h-10 w-10">
                             <AvatarImage
-                              src={getCloudinaryImage(user.image,150) || ""}
+                              className="object-cover"
+                              src={getCloudinaryImage(user.image, 140) || ""}
                               alt={user.name}
                             />
                             <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
@@ -221,7 +190,10 @@ export default async function AllUser() {
               {/* User Info */}
               <div className="flex items-start gap-3 mb-3">
                 <Avatar className="h-12 w-12">
-                  <AvatarImage src={getCloudinaryImage(user.image,150) || ""} alt={user.name} />
+                  <AvatarImage
+                    src={getCloudinaryImage(user.image, 150) || ""}
+                    alt={user.name}
+                  />
                   <AvatarFallback className="bg-linear-to-r from-amber-600 to-orange-600 text-white">
                     {getUserInitials(user.name)}
                   </AvatarFallback>

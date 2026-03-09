@@ -3,7 +3,7 @@
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { Store, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { becomeProvider } from "@/actions/provider.action";
 import { uploadImageCloudinary } from "@/lib/uploadCloudinary";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const becomeProviderSchema = z.object({
   restaurantName: z
@@ -231,6 +232,7 @@ export default function BecomeProvider({
                     {preview && (
                       <div className="mt-3 flex justify-center">
                         <Image
+                        
                           src={preview}
                           alt="Preview"
                           width={320}

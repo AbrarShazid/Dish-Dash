@@ -1,4 +1,3 @@
-
 // import { env } from "@/env"
 // import { createAuthClient } from "better-auth/react"
 // const BACKEND_URL=env.NEXT_PUBLIC_BACKEND_URL
@@ -9,14 +8,13 @@
 //      baseURL: `${BACKEND_URL}`,
 // })
 
-
-
 import { env } from "@/env";
 import { createAuthClient } from "better-auth/react";
-const BACKEND_URL=env.NEXT_PUBLIC_BACKEND_URL
+const BACKEND_URL = env.NEXT_PUBLIC_BACKEND_URL;
+
 export const authClient = createAuthClient({
-baseURL: typeof window !== "undefined" ? window.location.origin : `${BACKEND_URL}`,
-fetchOptions: {
-credentials: "include",
-},
+  baseURL: typeof window !== "undefined" ? window.location.origin : "",
+  fetchOptions: {
+    credentials: "include",
+  },
 });

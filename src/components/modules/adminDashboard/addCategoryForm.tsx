@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "@tanstack/react-form";
@@ -16,6 +15,7 @@ import { Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createCategory } from "@/actions/category.action";
+import { useState } from "react";
 
 // Validation schema
 const formSchema = z.object({
@@ -23,11 +23,15 @@ const formSchema = z.object({
     .string()
     .min(2, "Category name must be at least 2 characters")
     .max(50, "Category name must be less than 50 characters")
-    .regex(/^[a-zA-Z\s-]+$/, "Category name can only contain letters, spaces, and hyphens"),
+    .regex(
+      /^[a-zA-Z\s-&]+$/,
+      "Category name can only contain letters, spaces, hyphens, and &",
+    ),
 });
 
 export function AddCategoryForm() {
   const router = useRouter();
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -37,6 +41,7 @@ export function AddCategoryForm() {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      setIsSubmiting(true);
       try {
         const { error } = await createCategory({ name: value.name.trim() });
 
@@ -50,13 +55,16 @@ export function AddCategoryForm() {
       } catch (error) {
         toast.error("Something went wrong");
       }
+      setIsSubmiting(false);
     },
   });
 
   return (
     <Card className="border shadow-sm bg-white dark:bg-gray-900">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Add New Category</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          Add New Category
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form
@@ -65,11 +73,12 @@ export function AddCategoryForm() {
             form.handleSubmit();
           }}
         >
-          <FieldGroup className="space-y-4">
+          <FieldGroup>
             <form.Field
               name="name"
               children={(field) => {
-                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field>
                     <FieldLabel htmlFor={field.name}>Category Name</FieldLabel>
@@ -80,7 +89,7 @@ export function AddCategoryForm() {
                       placeholder="e.g., Italian, Burgers, Desserts"
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      disabled={form.state.isSubmitting}
+                      disabled={isSubmiting}
                     />
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
@@ -91,12 +100,12 @@ export function AddCategoryForm() {
             />
 
             <Field>
-              <Button 
-                type="submit" 
-                disabled={form.state.isSubmitting}
+              <Button
+                type="submit"
+                disabled={isSubmiting}
                 className="w-full sm:w-auto"
               >
-                {form.state.isSubmitting ? (
+                {isSubmiting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
                     Creating...

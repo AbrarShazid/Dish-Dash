@@ -9,8 +9,8 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, message }: EmptyStateProps) {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-12 text-center">
+    <div className="min-h-[60vh] flex items-center justify-center p-4 ">
+      <Card className="w-full max-w-md p-12 text-center bg-gray-100 dark:bg-gray-800">
         <MenuSquare className="w-16 h-16 mx-auto text-gray-400 mb-4" />
         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
           {title}

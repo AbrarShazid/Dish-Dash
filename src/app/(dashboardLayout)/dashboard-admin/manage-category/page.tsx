@@ -1,24 +1,21 @@
-
-import { AddCategoryForm } from '@/components/modules/adminDashboard/addCategoryForm';
-import { CategoryList } from '@/components/modules/adminDashboard/categoryList';
-import { categoryService } from '@/services/category.service';
-
+import { ErrorState } from "@/components/layout/ErrorState";
+import { AddCategoryForm } from "@/components/modules/adminDashboard/addCategoryForm";
+import { CategoryList } from "@/components/modules/adminDashboard/categoryList";
+import { categoryService } from "@/services/category.service";
 
 export default async function ManageCategory() {
   const { data, error } = await categoryService.getAllCategory();
 
   if (error) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-500">Failed to load categories</p>
-        </div>
-      </div>
+      <ErrorState
+        message={error.message || "Failed to load categories"}
+      ></ErrorState>
     );
   }
 
   return (
-    <div className="space-y-6 md:mx-6 mx-4">
+    <div className="space-y-6 md:mx-6 mx-4 ">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -30,7 +27,7 @@ export default async function ManageCategory() {
       </div>
 
       {/* Add Category Form */}
-     <AddCategoryForm></AddCategoryForm>
+      <AddCategoryForm></AddCategoryForm>
 
       {/* Categories List */}
       <CategoryList categories={data || []} />

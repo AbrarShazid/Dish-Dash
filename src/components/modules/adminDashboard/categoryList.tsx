@@ -82,11 +82,11 @@ export function CategoryList({ categories }: CategoryListProps) {
   return (
     <>
       {/* Desktop Table - Hidden on mobile */}
-      <div className="hidden md:block">
-        <Card className="border shadow-sm bg-white dark:bg-gray-900">
+      <div className="hidden md:block ">
+        <Card className="border shadow-sm px-6 bg-white dark:bg-gray-900">
           <div className="rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
             <Table>
-              <TableHeader className="bg-gray-50 dark:bg-gray-800/50">
+              <TableHeader className="bg-gray-50 dark:bg-gray-800/50 ">
                 <TableRow>
                   <TableHead>Category Name</TableHead>
                   <TableHead>Created</TableHead>

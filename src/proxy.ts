@@ -3,7 +3,6 @@ import { userStatus } from "@/constants/userStatus";
 import { userService } from "@/services/user.service";
 import { NextRequest, NextResponse } from "next/server";
 
-
 export async function proxy(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
 
@@ -59,7 +58,6 @@ export async function proxy(request: NextRequest) {
     ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
-
   }
 
   return NextResponse.next();
@@ -77,6 +75,6 @@ export const config = {
     "/orders/:path*",
     "/my-orders",
     "/my-orders/:path*",
-    "/become-provider"
+    "/become-provider",
   ],
 };

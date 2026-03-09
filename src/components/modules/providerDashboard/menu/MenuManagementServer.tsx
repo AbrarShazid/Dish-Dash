@@ -11,14 +11,7 @@ export default async function MenuManagementServer() {
 
   if (error) return <ErrorState message={error.message} />;
   if (categoryError) return <ErrorState message={categoryError.message} />;
-  if (!data?.menu?.length)
-    return (
-      <EmptyState
-        title="No Menu found"
-        message="Menu Item will appear here once you add!"
-      />
-    );
-  if (!categoryData?.length) return <EmptyState title="No Category found" />;
+
 
   return (
     <MenuManagement

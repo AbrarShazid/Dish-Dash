@@ -109,7 +109,7 @@ export async function SectionCardAdminDash() {
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            ${data.totalRevenue}
+            ${data.totalRevenue||0}
           </CardTitle>
           <CardAction />
         </CardHeader>

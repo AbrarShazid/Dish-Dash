@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import type { NextConfig } from "next";
 
-const FRONTEND_URL=env.NEXT_PUBLIC_FRONTEND_URL
+const BACKEND_URL=env.NEXT_PUBLIC_BACKEND_URL
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/auth/:path*",
-        destination: `${FRONTEND_URL}/api/auth/:path*`,
+        destination: `${BACKEND_URL}/api/auth/:path*`,
       },
     ];
   },

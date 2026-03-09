@@ -13,8 +13,9 @@ export default function RestaurantCard({ provider }: { provider: Provider }) {
       <div className="relative h-48 bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 shrink-0">
         {provider.image ? (
           <Image
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
-            src={getCloudinaryImage(provider.image,800)}
+            src={getCloudinaryImage(provider.image, 600)}
             alt={provider.restaurantName}
             className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
           />
