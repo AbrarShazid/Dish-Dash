@@ -1,36 +1,76 @@
-<!-- This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dish Dash - Food Delivery Platform
 
-## Getting Started
+A modern food delivery platform built with Next.js, featuring user authentication, restaurant browsing, and order management.
 
-First, run the development server:
+## 🚀 Live Demo
+
+**Live Site:** [Dish Dash](https://dish-dash-l2.vercel.app)
+
+**Backend Repository:** [Dish Dash Backend](https://github.com/AbrarShazid/Dish-Dash-Back-End-L2-A4)
+
+## 👨‍💻 Admin Credentials
+
+Use these credentials to access the admin dashboard:
+
+Email: admin@gmail.com
+
+Password: Aa123456
+
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js, TypeScript, TailwindCSS
+- **Authentication:** BetterAuth
+- **UI Components:** Shadcn UI.
+- **Image Upload:** Cloudinary
+- **Backend:** Node.js, Express, PostgreSQL, Prisma
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have installed:
+- Node.js (v18 or higher)
+- pnpm (v8 or higher)
+- Git
+
+## 🔧 Installation & Setup
+
+Follow these steps to run the project locally:
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/AbrarShazid/Dish-Dash.git
+cd Dish-Dash
 ```
+### 2. Install Dependencies
+```bash
+pnpm install
+```
+### 3. Set Up Environment Variables
+Create a .env file in the root directory and add the following variables:
+```bash
+# Frontend URL
+NEXT_PUBLIC_FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Backend URLs (choose one based on your setup)
+BACKEND_URL=https://dish-dash-backend.vercel.app
+# OR for local backend
+# BACKEND_URL=http://localhost:5000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+AUTH_URL=https://dish-dash-backend.vercel.app
+# OR for local backend
+# AUTH_URL=http://localhost:5000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+NEXT_PUBLIC_BACKEND_URL=https://dish-dash-backend.vercel.app
+# OR for local backend
+# NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details. -->
+# Cloudinary Configuration
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_cloudinary_upload_preset
+```
+### 4. Run the Development Server
+```bash
+pnpm dev
+```
